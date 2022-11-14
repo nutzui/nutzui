@@ -1,0 +1,46 @@
+version: '3.5'
+services:
+  #
+  # Nutzui Core
+  #
+  nutzui-core:
+    container_name: nutzui-core
+    hostname: nutzui-core
+    build: .
+    image: nutzui_core_19_0_0:1 # Make sure you change this tag when you change the version in the Dockerfile!
+    ports:
+      - "8208:8208"
+    restart: always
+    volumes:
+      - ../lib:/nutzui_lib
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=host.docker.internal:0
+    # network_mode: "host"
+    working_dir: /nutzui_lib
+    entrypoint: "/bin/sh -c 'cd /nutzui_lib && npm run dev && trap exit TERM; while :; do true; sleep 12h & wait $${!}; done;'" # Trick to make a container run forever.
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+#
+#
+#
+# volumes:
+#   nutzui_core_node_modules:
+#     name: nutzui_core_node_modules
+#
+#
+#
+networks:
+  4u2_network:
+    name: 4u2_network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+        # gateway: 172.28.0.1
