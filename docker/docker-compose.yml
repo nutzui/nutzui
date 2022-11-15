@@ -18,7 +18,8 @@ services:
       - DISPLAY=host.docker.internal:0
     # network_mode: "host"
     working_dir: /nutzui_lib
-    entrypoint: "/bin/sh -c 'cd /nutzui_lib && npm run dev && trap exit TERM; while :; do true; sleep 12h & wait $${!}; done;'" # Trick to make a container run forever.
+    # entrypoint: "/bin/sh -c 'cd /nutzui_lib && npm run dev && trap exit TERM; while :; do true; sleep 12h & wait $${!}; done;'" # Trick to make a container run forever.
+    entrypoint: "/bin/sh -c 'cd /nutzui_lib && trap exit TERM; while :; do true; sleep 12h & wait $${!}; done;'" # Trick to make a container run forever.
     tty: true
     stdin_open: true
     logging:
