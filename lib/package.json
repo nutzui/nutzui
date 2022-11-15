@@ -1,6 +1,6 @@
 {
-  "name": "nutzui",
-  "version": "0.0.0",
+  "name": "@nutzui/nutzui",
+  "version": "0.0.3",
   "author": "So Can You B.V.",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
@@ -12,7 +12,8 @@
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "publish": "rm -Rf dist && mkdir -p dist/components && cd dist && cp ../src/components/*.vue ./components && cp ../package.json . && cp ../*.md . && npm publish --access=public"
   },
   "dependencies": {
     "vue": "^3.2.41"
