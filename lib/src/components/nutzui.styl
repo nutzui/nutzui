@@ -1,14 +1,57 @@
-:root
-  --nu-cl-bg purple
-  --nu-cl-fg orange
+@import url('https://fonts.googleapis.com/css?family=Roboto')
 
-i
+:root
+  --nu-cl-bg #fff
+  --nu-cl-fg #444
+  --nu-cl-focus #08f
+  --nu-sz-sm 4px
+  --nu-sz-md 8px
+  --nu-sz-lg 16px
+  --nu-base-font-family Roboto, sans-serif
+  //  Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif
+
+nu-m-horz-sm()
+  margin-left var(--nu-sz-sm)
+  margin-right var(--nu-sz-sm)
+
+body, #app
+  width 100vw
+  height 100vh
+  margin 0
+  padding 0
+  background-color var(--nu-cl-bg)
+  color var(--nu-cl-fg)
+  line-height 1.6
+  font-family var(--nu-base-font-family)
+  font-size 15px
+  text-rendering optimizeLegibility
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+*,
+*::before,
+*::after
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  font-weight: normal;
+
+icon
   display flex
   place-items center
   place-content center
   width 32px
   height 32px
   color var(--nu-cl-fg)
+  cursor pointer
+  // nu-m-horz-sm()
+  &:hover
+    color var(--nu-cl-focus)
+//    color lighten(var(--nu-cl-fg), 30%)
+//    background-color lighten(var(--nu-cl-bg), 30%)
+
+grow
+  flex-grow 1
 
 .nu-flex
   display flex
@@ -18,4 +61,32 @@ i
 
 .nu-flex-grow
   flex-grow 1
-  background-color #0f4
+
+.nu-center-vert
+  align-items: center
+
+.nu-w-full
+  width 100%
+
+.nu-p-sm
+  padding var(--nu-sz-sm)
+
+.nu-p-horz-sm
+  padding-left var(--nu-sz-sm)
+  padding-right var(--nu-sz-sm)
+
+.nu-p-vert-md
+  padding-top var(--nu-sz-md)
+  padding-bottom var(--nu-sz-md)
+
+.nu-p-md
+  padding var(--nu-sz-md)
+
+.nu-p-lg
+  padding var(--nu-sz-lg)
+
+.nu-m-horz-sm
+  nu-m-horz-sm()
+
+.nu-m-r-sm
+  margin-right var(--nu-sz-sm)
