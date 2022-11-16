@@ -1,12 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto')
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap')
 
 :root
   --nu-cl-bg #fff
   --nu-cl-fg #444
   --nu-cl-focus #08f
+  --nu-cl-hover #f4f8ff
+  --nu-cl-focus-contra #ff
   --nu-sz-sm 4px
   --nu-sz-md 8px
   --nu-sz-lg 16px
+  --nu-base-font-size 15px
   --nu-base-font-family Roboto, sans-serif
   //  Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif
 
@@ -23,7 +26,8 @@ body, #app
   color var(--nu-cl-fg)
   line-height 1.6
   font-family var(--nu-base-font-family)
-  font-size 15px
+  font-size var(--nu-base-font-size)
+  font-weight 400
   text-rendering optimizeLegibility
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
@@ -35,6 +39,24 @@ body, #app
   margin: 0;
   position: relative;
   font-weight: normal;
+
+button
+  padding var(--nu-sz-md)
+  font-family var(--nu-base-font-family)
+  font-size var(--nu-base-font-size)
+  font-weight 500
+  text-transform uppercase
+  color var(--nu-cl-fg, #000)
+  background-color var(--nu-cl-bg, #fff)
+  border 1px solid #ddd
+  border-radius 4px
+  white-space nowrap
+  cursor pointer
+  user-select none
+  &:hover
+    background-color var(--nu-cl-hover)
+    color var(--nu-cl-focus)
+    // border-color var(--nu-cl-focus)
 
 icon
   display flex
@@ -90,3 +112,9 @@ grow
 
 .nu-m-r-sm
   margin-right var(--nu-sz-sm)
+
+.nu-gap-sm
+  gap var(--nu-sz-sm)
+
+.nu-gap-md
+  gap var(--nu-sz-md)
