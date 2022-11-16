@@ -17,9 +17,13 @@ nu-m-horz-sm()
   margin-left var(--nu-sz-sm)
   margin-right var(--nu-sz-sm)
 
+html
+  width 100%
+  height 100%
+
 body, #app
-  width 100vw
-  height 100vh
+  width 100%
+  height 100% // On mobile, 100vh is not 100% of the viewport height! It includes the address bar and browser UI. Using 100% instead should fix it, in combination with the 100% height on the html tag.
   margin 0
   padding 0
   background-color var(--nu-cl-bg)
@@ -58,7 +62,7 @@ button
     color var(--nu-cl-focus)
     // border-color var(--nu-cl-focus)
 
-icon
+NuIcon
   display flex
   place-items center
   place-content center
@@ -71,8 +75,11 @@ icon
     color var(--nu-cl-focus)
 //    color lighten(var(--nu-cl-fg), 30%)
 //    background-color lighten(var(--nu-cl-bg), 30%)
+  svg
+    width 24px // Otherwise not showing on iPhone.
+    height 24px
 
-grow
+NuGrow
   flex-grow 1
 
 .nu-flex
