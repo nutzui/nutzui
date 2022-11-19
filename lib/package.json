@@ -16,6 +16,7 @@
     "publish": "rm -Rf dist && mkdir -p dist/components && cd dist && cp ../src/components/*.vue ./components && cp ../package.json . && cp ../*.md . && npm publish --access=public"
   },
   "dependencies": {
+    "cleave.js": "^1.6.0",
     "vue": "^3.2.41"
   },
   "devDependencies": {

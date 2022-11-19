@@ -20,7 +20,7 @@ import './nutzui.styl'
       </header>
 
       <!--Content-->
-      <article class="nu-flex-grow nu-p-lg">
+      <article class="nu-flex nu-flex-grow nu-p-lg">
         <slot>
           <!-- Content goes here ... -->
         </slot>
