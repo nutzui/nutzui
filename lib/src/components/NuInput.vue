@@ -155,11 +155,11 @@ export default {
 
 <template>
   <div>
-    <label class="nu-label nu-flex-wrap" v-if="label !== '' || subLabel !== ''">
-      <span class="nu-label-text nu-m-r-md">{{label}}</span>
-      <span class="nu-label-text-alt nu-ml-auto">{{subLabel}}</span>
+    <label class="nu-label nu-flex nu-flex-wrap nu-bottom-vert nu-p-vert-0" v-if="label !== '' || subLabel !== ''">
+      <span class="nu-label-text nu-m-r-md nu-m-vert-md">{{label}}</span>
+      <span class="nu-label-text-alt nu-ml-auto nu-mb-md">{{subLabel}}</span>
     </label>
-    <div class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative">
+    <div class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative nu-mb-md">
       <input
         class="nu-input nu-w-full"
         :class="{ 'nu-input-sm': size === 'sm', 'nu-pl-xl': icon }"
@@ -178,12 +178,10 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.nux-inp-icon-inner-wrapper {
-   color: #9CA3AF;
-}
+<style scoped lang="stylus">
+.nux-inp-icon-inner-wrapper
+  color #9CA3AF
 
-.nux-inp-icon-wrapper:focus-within .nux-inp-icon-inner-wrapper {
-  color: hsl(var(--nu-cl-focus)) !important;
-}
+.nux-inp-icon-wrapper:focus-within .nux-inp-icon-inner-wrapper
+  color var(--nu-cl-focus) !important
 </style>

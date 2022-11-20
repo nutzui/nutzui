@@ -9,6 +9,7 @@
   --nu-cl-hover #d8e8ff
   --nu-cl-focus-contra #ff
   --nu-cl-border-input #cacace
+  --nu-cl-label-input #585858
   --nu-sz-sm 4px
   --nu-sz-md 8px
   --nu-sz-lg 16px
@@ -173,6 +174,9 @@ NuGrow
 .nu-center-vert
   align-items center
 
+.nu-bottom-vert
+  align-items end
+
 .nu-center-horz
   justify-content center
 
@@ -188,25 +192,22 @@ NuGrow
 .nu-w-lg
   width var(--nu-sz-lg)
 
-.nu-p-sm
-  padding var(--nu-sz-sm)
+.nu-m-vert-sm
+  margin-top var(--nu-sz-sm)
+  margin-bottom var(--nu-sz-sm)
 
-.nu-p-horz-sm
-  padding-left var(--nu-sz-sm)
-  padding-right var(--nu-sz-sm)
+.nu-m-vert-md
+  margin-top var(--nu-sz-md)
+  margin-bottom var(--nu-sz-md)
 
-.nu-p-vert-md
-  padding-top var(--nu-sz-md)
-  padding-bottom var(--nu-sz-md)
+.nu-mt-md
+  margin-top var(--nu-sz-md)
 
-.nu-p-md
-  padding var(--nu-sz-md)
+.nu-mb-sm
+  margin-bottom var(--nu-sz-sm)
 
-.nu-p-lg
-  padding var(--nu-sz-lg)
-
-.nu-pl-xl
-  padding-left var(--nu-sz-xl)
+.nu-mb-md
+  margin-bottom var(--nu-sz-md)
 
 .nu-ml-auto
   margin-left auto
@@ -223,6 +224,30 @@ NuGrow
 .nu-m-r-sm
   margin-right var(--nu-sz-sm)
 
+.nu-p-sm
+  padding var(--nu-sz-sm)
+
+.nu-p-md
+  padding var(--nu-sz-md)
+
+.nu-p-lg
+  padding var(--nu-sz-lg)
+
+.nu-pl-xl
+  padding-left var(--nu-sz-xl)
+
+.nu-p-vert-0
+  padding-top 0
+  padding-bottom 0
+
+.nu-p-vert-md
+  padding-top var(--nu-sz-md)
+  padding-bottom var(--nu-sz-md)
+
+.nu-p-horz-sm
+  padding-left var(--nu-sz-sm)
+  padding-right var(--nu-sz-sm)
+
 .nu-gap-sm
   gap var(--nu-sz-sm)
 
@@ -233,8 +258,8 @@ input, .nu-input
   nu-transition()
   flex-shrink 1
   height var(--nu-sz-input-height)
-  padding-left var(--nu-sz-lg)
-  padding-right var(--nu-sz-lg)
+  padding-left var(--nu-sz-md)
+  padding-right var(--nu-sz-md)
   font-size var(--nu-base-font-size)
   line-height var(--nu-base-font-size)
   border 1px solid var(--nu-cl-border-input)
@@ -254,16 +279,14 @@ input, .nu-input
   line-height calc(var(--nu-base-font-size) * 0.8)
 
 .nu-label
-  display flex
   user-select none
-  align-items center
   justify-content space-between
-  padding var(--nu-sz-md) var(--nu-sz-sm)
+  color var(--nu-cl-label-input)
 
 .nu-label-text
   font-size var(--nu-base-font-size)
-  line-height calc(var(--nu-base-font-size) * 1.1)
+  line-height var(--nu-base-font-size)
 
 .nu-label-text-alt
   font-size calc(var(--nu-base-font-size) * 0.8)
-  line-height var(--nu-base-font-size)
+  line-height calc(var(--nu-base-font-size) * 0.8)
