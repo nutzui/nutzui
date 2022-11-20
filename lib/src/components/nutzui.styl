@@ -10,6 +10,7 @@
   --nu-cl-focus-contra #ff
   --nu-cl-border-input #cacace
   --nu-cl-label-input #585858
+  --nu-cl-label-icon-input #aaa
   --nu-sz-sm 4px
   --nu-sz-md 8px
   --nu-sz-lg 16px
@@ -215,14 +216,17 @@ NuGrow
 .nu-m-horz-sm
   nu-m-horz-sm()
 
-.nu-m-r-md
-  margin-right var(--nu-sz-md)
+.nu-m-l-sm
+  margin-left var(--nu-sz-sm)
 
 .nu-m-l-md
   margin-left var(--nu-sz-md)
 
 .nu-m-r-sm
   margin-right var(--nu-sz-sm)
+
+.nu-m-r-md
+  margin-right var(--nu-sz-md)
 
 .nu-p-sm
   padding var(--nu-sz-sm)
@@ -282,6 +286,12 @@ input, .nu-input
   user-select none
   justify-content space-between
   color var(--nu-cl-label-input)
+  & NuIcon
+    width 16px
+    height 16px
+    color var(--nu-cl-label-icon-input)
+    &:hover, &.active
+      color var(--nu-cl-focus)
 
 .nu-label-text
   font-size var(--nu-base-font-size)

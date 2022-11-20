@@ -4,6 +4,7 @@
 
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import Cleave from 'cleave.js'
+import NuIconHelp from './icons/NuIconHelp.vue'
 
 export default {
   props: {
@@ -12,6 +13,10 @@ export default {
       default: ''
     },
     subLabel: {
+      type: String,
+      default: ''
+    },
+    helpTxt: {
       type: String,
       default: ''
     },
@@ -28,11 +33,14 @@ export default {
 
   emits: [ 'update:modelValue' ],
 
+  components: { NuIconHelp },
+
   setup(props, { emit }) {
     const inp = ref(null)
     const liveValue = ref(props.modelValue)
     const lastEmittedValue = ref(null)
     const placehldr = ref('')
+    const showHelp = ref(false)
     let cleave = null
 
     if (props.placeholder) {
@@ -56,6 +64,10 @@ export default {
         }
       }
     })
+
+    const clickHelp = () => {
+      showHelp.value = !showHelp.value
+    }
 
     function valueChanged (v) {
       let lv = v
@@ -146,8 +158,10 @@ export default {
       inp,
       liveValue,
       placehldr,
+      showHelp,
 
-      inputChanged
+      inputChanged,
+      clickHelp
     }
   }
 }
@@ -155,9 +169,26 @@ export default {
 
 <template>
   <div>
-    <label class="nu-label nu-flex nu-flex-wrap nu-bottom-vert nu-p-vert-0" v-if="label !== '' || subLabel !== ''">
-      <span class="nu-label-text nu-m-r-md nu-m-vert-md">{{label}}</span>
-      <span class="nu-label-text-alt nu-ml-auto nu-mb-md">{{subLabel}}</span>
+    <label class="nu-label nu-flex nu-p-vert-0" v-if="label !== '' || subLabel !== '' || helpTxt !== ''">
+      <div class="nu-flex nu-flex-grow nu-flex-col">
+        <div class="nu-flex nu-flex-grow nu-center-vert">
+          <div class="nu-flex nu-flex-grow nu-flex-wrap nu-bottom-vert">
+            <div class="nu-label-text nu-m-r-md nu-m-vert-md">{{label}}</div>
+
+            <NuGrow />
+
+            <div class="nu-label-text-alt nu-ml-auto nu-mb-md">{{subLabel}}</div>
+          </div>
+
+          <NuIcon @click="clickHelp" class="nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
+            <NuIconHelp />
+          </NuIcon>
+        </div>
+
+        <div class="nu-mb-sm" v-if="showHelp && helpTxt !== ''">
+          {{ helpTxt }}
+        </div>
+      </div>
     </label>
     <div class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative nu-mb-md">
       <input
