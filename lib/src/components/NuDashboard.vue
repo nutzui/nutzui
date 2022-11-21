@@ -1,5 +1,29 @@
 <script setup lang="ts">
 import './nutzui.styl'
+
+import { watch, ref } from 'vue';
+
+const emit = defineEmits(['overlay-clicked'])
+
+const props = defineProps({
+  overlayRightOn: Boolean
+})
+
+const showRightOverlay = ref(false)
+
+watch(() => props.overlayRightOn, (newVal) => {
+  if (newVal) {
+    showRightOverlay.value = true
+  } else {
+    setTimeout(() => {
+      showRightOverlay.value = false
+    }, 1000 * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nu-transition-duration')))
+  }
+})
+
+const clickOverlay = () => {
+  emit('overlay-clicked')
+}
 </script>
 
 <template>
@@ -40,6 +64,17 @@ import './nutzui.styl'
         <!-- Right sidebar goes here... -->
       </slot>
     </aside>
+
+    <div @click="clickOverlay" class="nux-overlay" :class="{ 'overlay-right-show': showRightOverlay, 'overlay-right-on': showRightOverlay && overlayRightOn }">
+    </div>
+
+    <div class="nux-overlay-right" :class="{ 'overlay-right-on': showRightOverlay && overlayRightOn }">
+      <div v-if="showRightOverlay">
+        <slot name="overlayright">
+          <!-- Right overlay goes here... -->
+        </slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,7 +82,7 @@ import './nutzui.styl'
 .n-dashboard
 //  background-color #f05
 //  color var(--nu-cl-bg)
-  width 100%
+  max-width var(--nu-app-w-max)
   height 100%
   overflow hidden
   margin 0 auto
@@ -80,4 +115,30 @@ footer
   // box-shadow rgba(0, 0, 0, 0.03) 0px 0px 16px
   box-shadow rgba(168, 168, 168, 0.08) 0px -20px 20px
   // box-shadow 0 4px 2px -2px gray
+
+.nux-overlay
+  position absolute
+  left 0
+  top 0
+  width 0
+  height 0
+  background-color rgba(0, 0, 0, 0)
+  transition background-color var(--nu-transition-duration) ease-in-out
+  &.overlay-right-show
+    width 100%
+    height 100%
+  &.overlay-right-on
+    background-color rgba(0, 0, 0, 0.5)
+    transition background-color var(--nu-transition-duration) ease-in-out
+
+.nux-overlay-right
+  background-color var(--nu-cl-bg)
+  position absolute
+  width "min(90vw, calc(%s * 0.9), calc(%s * 0.5))" % (var(--nu-app-w-max) var(--nu-app-w-max))
+  right "calc(-1 * min(90vw, calc(%s * 0.9), calc(%s * 0.5)))" % (var(--nu-app-w-max) var(--nu-app-w-max))
+  transition right var(--nu-transition-duration) ease-in-out
+  height 100%
+  &.overlay-right-on
+    right 0
+    transition right var(--nu-transition-duration) ease-in-out
 </style>
