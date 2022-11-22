@@ -1,33 +1,21 @@
 <script setup lang="ts">
 import './nutzui.styl'
 
-import { watch, ref } from 'vue';
+import { computed } from 'vue';
 
 const emit = defineEmits(['close-overlay'])
 
 const props = defineProps({
-  overlayRightOn: Boolean,
-  overlayRightState: String
+  overlayRightState: String // startOpening, endOpening, startClosing, endClosing
 })
 
-const showRightOverlay = ref(false)
-
-const checkOverlay = () => {
-  if (props.overlayRightState === 'startOpen') {
-    showRightOverlay.value = true
-  }
-  if (props.overlayRightState === 'startClose') {
-    showRightOverlay.value = false
-  }
-}
-
-watch(() => props.overlayRightOn, () => {
-  checkOverlay()
+const overlayRightOpen = computed(() => {
+  return props.overlayRightState === 'startOpening' || props.overlayRightState === 'endOpening'
 })
-watch(() => props.overlayRightState, () => {
-  checkOverlay()
+
+const overlayFull = computed(() => {
+  return overlayRightOpen.value || props.overlayRightState === 'startClosing'
 })
-checkOverlay()
 
 const clickOverlay = () => {
   emit('close-overlay')
@@ -73,11 +61,11 @@ const clickOverlay = () => {
       </slot>
     </aside>
 
-    <div @click="clickOverlay" class="nux-overlay" :class="{ 'overlay-right-show': overlayRightState === 'startOpen' || overlayRightState === 'startClose', 'overlay-right-on': showRightOverlay && overlayRightOn }">
+    <div @click="clickOverlay" class="nux-overlay" :class="{ 'overlay-full': overlayFull, 'overlay-right-open': overlayRightOpen }">
     </div>
 
-    <div class="nux-overlay-right" :class="{ 'overlay-right-on': showRightOverlay && overlayRightOn }">
-      <!-- <div v-if="showRightOverlay || overlayRightOn"> -->
+    <div class="nux-overlay-right" :class="{ 'overlay-right-open': overlayRightOpen }">
+      <!-- <div v-if="overlayRightOpen"> -->
         <slot name="overlayright">
           <!-- Right overlay goes here... -->
         </slot>
@@ -132,10 +120,10 @@ footer
   height 0
   background-color rgba(0, 0, 0, 0)
   transition background-color var(--nu-transition-duration) ease-in-out
-  &.overlay-right-show
+  &.overlay-full
     width 100%
     height 100%
-  &.overlay-right-on
+  &.overlay-right-open
     background-color rgba(0, 0, 0, 0.5)
     transition background-color var(--nu-transition-duration) ease-in-out
 
@@ -146,7 +134,7 @@ footer
   right "calc(-1 * min(90vw, calc(%s * 0.9), calc(%s * 0.5)))" % (var(--nu-app-w-max) var(--nu-app-w-max))
   transition right var(--nu-transition-duration) ease-in-out
   height 100%
-  &.overlay-right-on
+  &.overlay-right-open
     right 0
     transition right var(--nu-transition-duration) ease-in-out
 </style>
