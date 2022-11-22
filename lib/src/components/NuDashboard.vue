@@ -6,23 +6,25 @@ import { watch, ref } from 'vue';
 const emit = defineEmits(['close-overlay'])
 
 const props = defineProps({
-  overlayRightOn: Boolean
+  overlayRightOn: Boolean,
+  overlayRightState: String
 })
 
 const showRightOverlay = ref(false)
 
 const checkOverlay = () => {
-  if (props.overlayRightOn) {
+  if (props.overlayRightState === 'startOpen') {
     showRightOverlay.value = true
-    setTimeout(() => {
-      if (!props.overlayRightOn) {
-        showRightOverlay.value = false
-      }
-    }, 1000 * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nu-transition-duration')))
+  }
+  if (props.overlayRightState === 'startClose') {
+    showRightOverlay.value = false
   }
 }
 
 watch(() => props.overlayRightOn, () => {
+  checkOverlay()
+})
+watch(() => props.overlayRightState, () => {
   checkOverlay()
 })
 checkOverlay()
@@ -71,15 +73,15 @@ const clickOverlay = () => {
       </slot>
     </aside>
 
-    <div @click="clickOverlay" class="nux-overlay" :class="{ 'overlay-right-show': showRightOverlay, 'overlay-right-on': showRightOverlay && overlayRightOn }">
+    <div @click="clickOverlay" class="nux-overlay" :class="{ 'overlay-right-show': overlayRightState === 'startOpen' || overlayRightState === 'startClose', 'overlay-right-on': showRightOverlay && overlayRightOn }">
     </div>
 
     <div class="nux-overlay-right" :class="{ 'overlay-right-on': showRightOverlay && overlayRightOn }">
-      <div v-if="showRightOverlay">
+      <!-- <div v-if="showRightOverlay || overlayRightOn"> -->
         <slot name="overlayright">
           <!-- Right overlay goes here... -->
         </slot>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
