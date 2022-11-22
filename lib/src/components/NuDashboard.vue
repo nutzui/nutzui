@@ -3,7 +3,7 @@ import './nutzui.styl'
 
 import { watch, ref } from 'vue';
 
-const emit = defineEmits(['overlay-clicked'])
+const emit = defineEmits(['close-overlay'])
 
 const props = defineProps({
   overlayRightOn: Boolean
@@ -11,18 +11,24 @@ const props = defineProps({
 
 const showRightOverlay = ref(false)
 
-watch(() => props.overlayRightOn, (newVal) => {
-  if (newVal) {
+const checkOverlay = () => {
+  if (props.overlayRightOn) {
     showRightOverlay.value = true
-  } else {
     setTimeout(() => {
-      showRightOverlay.value = false
+      if (!props.overlayRightOn) {
+        showRightOverlay.value = false
+      }
     }, 1000 * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nu-transition-duration')))
   }
+}
+
+watch(() => props.overlayRightOn, () => {
+  checkOverlay()
 })
+checkOverlay()
 
 const clickOverlay = () => {
-  emit('overlay-clicked')
+  emit('close-overlay')
 }
 </script>
 

@@ -91,7 +91,7 @@ h1
   }
 }
 
-button, .nu-button
+button, .nu-button, .nu-side-menu li
   nu-transition()
   min-height var(--nu-sz-input-height)
   padding var(--nu-sz-md)
@@ -131,6 +131,19 @@ button, .nu-button
   &:active
     animation button-pop 0.25s ease-out
     border none
+
+.nu-side-menu
+  padding-inline-start 0
+  & li
+    background-color inherit
+    justify-content start
+    text-transform none
+    padding 0
+    &:focus, &:hover
+      box-shadow none
+      outline none
+      border none
+      background-color inherit
 
 NuIcon
   display flex
