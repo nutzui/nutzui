@@ -223,6 +223,123 @@ export default {
       }
     }
 
+    let thMouseDownStartX = 0
+    let thMouseDownStartY = 0
+    let thMouseDownState = 0
+    let thMouseColsWidths = []
+    let thMouseColsStyleWidths = []
+    let thMouseSelectedColIx = 0
+
+    const columnsMinW = 250
+    const columnsResizerHalfWidth = 3
+
+    const thMouseDown = (ev: MouseEvent) => {
+      console.log('thMouseDown', ev)
+      thMouseDownStartX = ev.clientX
+      thMouseDownStartY = ev.clientY
+
+      thMouseDownState = 1
+
+      thMouseColsWidths = []
+      thMouseColsStyleWidths = []
+      thMouseSelectedColIx = -1
+      const cols = tbl.value?.querySelectorAll('colgroup col')
+      if (cols) {
+        for (let i = 0; i < cols.length; i++) {
+          const rect = cols[i].getBoundingClientRect()
+          console.log('thMouseMove 333', cols[i].style.width, rect.width)
+          thMouseColsWidths.push(rect.width)
+          thMouseColsStyleWidths.push(parseFloat(cols[i].style.width))
+        }
+      }
+      const ths = tblHeader.value?.querySelectorAll('tr th')
+      if (ths) {
+        for (let i = 0; i < ths.length; i++) {
+          console.log('thMouseMove 555', ths[i], ev.target)
+          if (ths[i] === ev.target) {
+            const rect = ev.target.getBoundingClientRect()
+            const x = ev.clientX - rect.left // x position within the element.
+            const y = ev.clientY - rect.top  // y position within the element.
+            if (x < columnsResizerHalfWidth && i > 0) {
+              thMouseSelectedColIx = i - 1
+            }
+            if (x > rect.width - columnsResizerHalfWidth && i < ths.length - 1) {
+              thMouseSelectedColIx = i
+            }
+          }
+        }
+      }
+      console.log('thMouseMove 444', thMouseColsWidths, thMouseColsStyleWidths)
+    }
+
+    const thMouseUp = (ev: MouseEvent) => {
+      console.log('thMouseUp', ev)
+      thMouseDownStartX = ev.clientX
+      thMouseDownStartY = ev.clientY
+      thMouseDownState = 0
+    }
+
+    function isWithinBounds(e: any, rect: ClientRect): boolean {
+      return (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.left + rect.width &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.top + rect.height
+      );
+    }
+
+    const thMouseMove = (ev: MouseEvent) => {
+      // Change the mouse cursor to indicate that the user can resize the column, if the mouse is over the column's edge.
+      const ths = tblHeader.value?.querySelectorAll('tr th')
+      for (let i = 0; i < ths.length; i++) {
+        // if (ths[i] === ev.target) {
+        if (isWithinBounds(ev, ths[i].getBoundingClientRect())) {
+          const rect = ths[i].getBoundingClientRect()
+          const x = ev.clientX - rect.left // x position within the element.
+          const y = ev.clientY - rect.top  // y position within the element.
+          if ((x < columnsResizerHalfWidth && i > 0) || (x > rect.width - columnsResizerHalfWidth && i < ths.length - 1)) {
+            tblHeader.value?.classList.add('col-resize')
+            // console.log('thMouseMove Col Resize')
+          } else {
+            tblHeader.value?.classList.remove('col-resize')
+            // console.log('thMouseMove NOT Col Resize')
+          }
+        }
+      }
+
+      if (thMouseDownState === 1 && thMouseSelectedColIx >= 0) {
+        // console.log('thMouseMove', ev)
+        tblHeader.value?.classList.add('col-resize2')
+        const dX =  ev.clientX - thMouseDownStartX
+        const dY =  ev.clientY - thMouseDownStartY
+        console.log('thMouseMove 222', dX, dY)
+        const cols = tbl.value?.querySelectorAll('colgroup col')
+        if (cols) {
+          let colsWidth = 0
+          let colsStyleWidth = 0
+          for (let i = 0; i < cols.length; i++) {
+            colsWidth += thMouseColsWidths[i]
+            colsStyleWidth += thMouseColsStyleWidths[i]
+          }
+          const dX2 = (dX / colsWidth) * colsStyleWidth
+          let w = thMouseColsStyleWidths[thMouseSelectedColIx] + dX2
+          let w2 = thMouseColsStyleWidths[thMouseSelectedColIx + 1] - dX2
+          if (w2 < columnsMinW) {
+            w -= columnsMinW - w2
+            w2 = columnsMinW
+          }
+          console.log('thMouseMove 333', w)
+          cols[thMouseSelectedColIx].style.width = w + 'px'
+          cols[thMouseSelectedColIx + 1].style.width = w2 + 'px'
+          xscroll()
+        }
+      } else {
+        tblHeader.value?.classList.remove('col-resize2')
+      }
+    }
+
+    window.addEventListener('mousemove', thMouseMove)
+
     return {
       tbl,
       tblHeader,
@@ -239,7 +356,10 @@ export default {
       clickRow,
       clickUnselectAll,
       getStyles,
-      getAlign
+      getAlign,
+      thMouseDown,
+      thMouseUp,
+      thMouseMove
     }
   },
 
@@ -296,6 +416,9 @@ export default {
                 :align="getAlign(column)"
                 :class="{ 'sortNum': column.tp === 'num', 'pl-1.5': getColumnStr(column) === '✓' }"
                 :style="column.overflow === 'visible' ? 'overflow: visible !important;' : ''"
+                @mousedown="thMouseDown"
+                @mouseup="thMouseUp"
+                @qqqmousemove="thMouseMove"
               >
                 <span>{{ getColumnStr(column) }}</span>
               </th>
@@ -306,6 +429,11 @@ export default {
       </div>
       <div class="table-content nu-flex-shrink-grow" ref="tblContent" v-on:scroll="xscroll">
         <table ref="tbl">
+          <colgroup>
+            <col span="1" style="width: 1000px;">
+            <col span="1" style="width: 1000px;">
+            <col span="1" style="width: 1000px;">
+          </colgroup>
           <tbody>
             <tr v-for="da in data" v-bind:key="da && da._id" :class="da._id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
               <td v-for="column in columns" v-bind:key="da._id + column.ky" :align="getAlign(column)" v-on:click="column.ky !== '_checkbox_' ? clickRow(da) : null">
@@ -393,6 +521,9 @@ tfoot th, .table-ftr-filler
 th
   padding 2px 4px 2px 4px
   font-weight normal
+
+.col-resize, .col-resize2
+  cursor col-resize
 
 /* table input { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; border: 1px solid #ddd; } */
 
