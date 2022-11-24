@@ -250,7 +250,7 @@ export default {
 </script>
 
 <template>
-  <div class="tblwrapper nu-flex">
+  <div class="tblwrapper nu-flex nu-flex-shrink-grow nu-overflow-auto">
     <div class="nu-flex nu-center-content nu-end-horz nu-w-full mb-2" v-if="showFilter || checkboxes.length">
       <template v-if="checkboxes.length">
         <span class="filter-comment">Selected: {{ checkboxes.length }}</span>
@@ -304,7 +304,7 @@ export default {
         </table>
         <!-- <div class="table-hdr-filler"></div> -->
       </div>
-      <div class="table-content" ref="tblContent" v-on:scroll="xscroll">
+      <div class="table-content nu-flex-shrink-grow" ref="tblContent" v-on:scroll="xscroll">
         <table ref="tbl">
           <tbody>
             <tr v-for="da in data" v-bind:key="da && da._id" :class="da._id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
