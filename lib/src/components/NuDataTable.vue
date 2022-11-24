@@ -347,90 +347,74 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.table-content {
-  overflow: auto;
-}
+<style lang="stylus" scoped>
+.table-content
+  overflow auto
 
-.table-header, .table-footer {
-  overflow: hidden;
-}
+.table-header, .table-footer
+  overflow hidden
 
-.table-header table, .table-footer table {
-  table-layout: fixed;
-}
+.table-header table, .table-footer table
+  table-layout fixed
 
-.table-header table th, .table-footer table th {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.table-header table th, .table-footer table th
+  overflow hidden
+  text-overflow ellipsis
 
-.table-hdr-filler, .table-ftr-filler {
-  min-width: 99px;
-}
+.table-hdr-filler, .table-ftr-filler
+  min-width 99px
 
-table  {
-  border-collapse: separate;
-  border-spacing: 0px;
-  width: 100%;
-}
+table
+  border-collapse separate
+  border-spacing 0px
+  width 100%
 
-th, .table-hdr-filler, .table-ftr-filler {
-  background:#e8e8e8;
-  border-right: 1px solid #888;
-}
+th, .table-hdr-filler, .table-ftr-filler
+  // background #e8e8e8
+  color #888
+  border-bottom 1px solid var(--nu-cl-border-table)
 
-td {
-  padding: 2px 4px !important;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-}
+th:not(:last-child), td:not(:last-child)
+  border-right 1px solid var(--nu-cl-border-table)
 
-tr:last-child td {
-  border-bottom: none;
-}
+td
+  padding 2px 4px !important
+  border-bottom 1px solid var(--nu-cl-border-table)
 
-.tableFixHead.no-footer, thead th, .table-hdr-filler {
-  border-bottom: 1px solid #bbb !important;
-}
+tr:last-child td
+  border-bottom none
 
-tfoot th, .table-ftr-filler {
-  border-top: 1px solid #bbb !important;
-}
+.tableFixHead.no-footer, thead th, .table-hdr-filler
+  border-bottom 1px solid #fofofo !important
 
-th {
-  padding: 2px 4px 2px 4px;
-  font-weight: normal;
-}
+tfoot th, .table-ftr-filler
+  border-top 1px solid var(--nu-cl-border-table) !important
+
+th
+  padding 2px 4px 2px 4px
+  font-weight normal
 
 /* table input { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; border: 1px solid #ddd; } */
 
-.filter-comment {
-  @apply mr-2 input-sm px-0;
-}
+.filter-comment
+  @apply mr-2 input-sm px-0
 
-.dt-unselect-all {
-  color: #777;
-  border-color: #777;
-}
-.dt-unselect-all:hover {
-  @apply bg-primary-focus;
-}
+.dt-unselect-all
+  color #777
+  border-color #777
+.dt-unselect-all:hover
+  @apply bg-primary-focus
 
-body .checkbox-mark {
-  @apply w-4 h-4;
-  border-color: #aaa;
-}
-body .checkbox:checked~.checkbox-mark::before {
-  transform: rotate(45deg)translate(-1px,-1px)scale(0.7) !important;
-}
-body .checkbox:checked~.checkbox-mark::before {
-  animation: none !important;
-}
+body .checkbox-mark
+  @apply w-4 h-4
+  border-color #aaa
+body .checkbox:checked~.checkbox-mark::before
+  transform:= rotate(45deg)translate(-1px,-1px)scale(0.7) !important
+body .checkbox:checked~.checkbox-mark::before
+  animation none !important
 
-.table-header th span {
-  white-space: pre;
-}
+.table-header th span
+  white-space pre
 </style>
 
 <style>
