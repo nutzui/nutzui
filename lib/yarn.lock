@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@ag-grid-community/styles@^28.2.1":
+  version "28.2.1"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/styles/-/styles-28.2.1.tgz#9ea384a3521aa9149ed2bed878d45a40cbb2a188"
+  integrity sha512-dy3Z46zTnzrwJOnH+tFvIvY9g/8qIi+b7XmbQlmATBr9zcNMk0wqWH1/9sNHs1fFW6m3Csvu4ctyzdr9mSw1YA==
+
 "@babel/parser@^7.16.4":
   version "7.20.3"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.3.tgz#5358cf62e380cf69efcb87a7bb922ff88bfac6e2"
@@ -2244,6 +2249,11 @@ lodash.once@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
+
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
 lodash@^4.17.21:
   version "4.17.21"

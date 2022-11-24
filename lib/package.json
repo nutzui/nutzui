@@ -16,7 +16,9 @@
     "publish": "rm -Rf dist && mkdir -p dist/components && cd dist && cp ../src/components/*.vue ./components && cp ../package.json . && cp ../*.md . && npm publish --access=public"
   },
   "dependencies": {
+    "@ag-grid-community/styles": "^28.2.1",
     "cleave.js": "^1.6.0",
+    "lodash.throttle": "^4.1.1",
     "vue": "^3.2.41"
   },
   "devDependencies": {
