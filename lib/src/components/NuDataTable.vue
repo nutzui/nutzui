@@ -444,7 +444,16 @@ export default {
                 @qqqmouseup="thMouseUp"
                 @qqqmousemove="thMouseMove"
               >
-                <span>{{ getColumnStr(column) }}</span>
+                <div class="nu-flex nu-center-vert">
+                  <span class="nu-m-r-sm" v-if="column.icon">
+                    <NuIcon>
+                      <component :is="column.icon" />
+                    </NuIcon>
+                  </span>
+                  <span>
+                    {{ getColumnStr(column) }}
+                  </span>
+                </div>
               </th>
             </tr>
           </thead>
@@ -572,6 +581,11 @@ body .checkbox:checked~.checkbox-mark::before
 
 .table-header th span
   white-space pre
+
+NuIcon
+  width 12px
+  height 12px
+  color #aaa
 </style>
 
 <style>
