@@ -346,8 +346,14 @@ export default {
             w2 = columnsMinW
           }
 
+          if (w < columnsMinW) {
+            w2 -= columnsMinW - w
+            w = columnsMinW
+          }
+
           cols[thMouseSelectedColIx].style.width = w + 'px'
           cols[thMouseSelectedColIx + 1].style.width = w2 + 'px'
+
           xscroll()
         }
       } else {
@@ -480,7 +486,7 @@ export default {
                 :class="{ 'sortNum': column.tp === 'num' }"
                 :style="column.overflow === 'visible' ? 'overflow: visible !important;' : ''"
               >
-                {{ getDat(totals, column) }}
+                <span>{{ getDat(totals, column) }}</span>
               </th>
             </tr>
           </tfoot>
@@ -520,6 +526,10 @@ th, .table-hdr-filler, .table-ftr-filler
 
 th:not(:last-child), td:not(:last-child)
   border-right 1px solid var(--nu-cl-border-table)
+
+th span
+  pointer-events none
+  user-select none
 
 td
   padding 2px 4px !important
