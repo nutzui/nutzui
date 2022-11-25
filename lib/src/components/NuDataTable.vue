@@ -1,5 +1,6 @@
 <script lang="ts">
 import { ref, toRefs, computed, watch, onMounted, onUnmounted /* , onUpdated */ } from 'vue'
+import type { Ref } from 'vue'
 import { debouncedRef } from '@coyoda/core/debounce'
 import { numberFormat } from '@coyoda/core/number'
 import FormInput from './NuInput.vue'
@@ -30,10 +31,10 @@ export default {
   },
   emits: [ 'clicked-row', 'checkboxes-changed', 'filter-changed' ],
   setup(props, { emit }) {
-    const tbl = ref(null)
-    const tblHeader = ref(null)
-    const tblFooter = ref(null)
-    const tblContent = ref(null)
+    const tbl: Ref<HTMLElement | null> = ref(null)
+    const tblHeader: Ref<HTMLElement | null> = ref(null)
+    const tblFooter: Ref<HTMLElement | null> = ref(null)
+    const tblContent: Ref<HTMLElement | null> = ref(null)
     const filterText = debouncedRef('', 300)
     const data = ref(toRefs(props).dat)
     const sortKey = ref(toRefs(props).sortKey)
@@ -191,75 +192,104 @@ export default {
     }
 
     function xscroll () {
-      const headerDisplayOri = tblHeader.value.style.display
+      const headerDisplayOri = tblHeader.value?.style.display
       const footerDisplayOri = tblFooter.value?.style.display
-      tblHeader.value.style.display = 'none'
+      if (tblHeader.value) {
+        tblHeader.value.style.display = 'none'
+      }
       if (tblFooter.value) {
         tblFooter.value.style.display = 'none'
       }
 
-      const headerThs =  tblHeader.value.querySelectorAll('th')
+      const headerThs =  tblHeader.value?.querySelectorAll('th')
       const footerThs =  tblFooter.value ? tblFooter.value.querySelectorAll('th') : []
 
-      for (const [i, td] of  tblContent.value.querySelectorAll('tr:first-child td').entries()) {
-        // const o = td.offsetWidth
-        // const o = td.clientWidth
-        const rect = td.getBoundingClientRect()
-        const o = rect.width
-        headerThs[i].style.width = o + 'px'
-        if (footerThs[i]) {
-          footerThs[i].style.width = o + 'px'
+      if (tblContent.value) {
+        for (const [i, td] of  tblContent.value.querySelectorAll('tr:first-child td').entries()) {
+          // const o = td.offsetWidth
+          // const o = td.clientWidth
+          const rect = td.getBoundingClientRect()
+          const o = rect.width
+          if (headerThs?.[i]) {
+            headerThs[i].style.width = o + 'px'
+          }
+          if (footerThs[i]) {
+            footerThs[i].style.width = o + 'px'
+          }
         }
       }
 
-      tblHeader.value.style.display = headerDisplayOri
+      if (tblHeader.value) {
+        tblHeader.value.style.display = headerDisplayOri || ''
+      }
       if (tblFooter.value) {
-        tblFooter.value.style.display = footerDisplayOri
+        tblFooter.value.style.display = footerDisplayOri || ''
       }
 
-      tblHeader.value.scrollLeft = tblContent.value.scrollLeft
-      if (tblFooter.value) {
-        tblFooter.value.scrollLeft = tblContent.value.scrollLeft
+      if (tblHeader.value && tblContent.value) {
+        tblHeader.value.scrollLeft = tblContent.value?.scrollLeft
+      }
+      if (tblFooter.value && tblContent.value) {
+        tblFooter.value.scrollLeft = tblContent.value?.scrollLeft
       }
     }
 
+    /*
+    --------------------------------------------------------------------------
+    Mouse actions
+    --------------------------------------------------------------------------
+    */
+    
     let thMouseDownStartX = 0
     let thMouseDownStartY = 0
     let thMouseDownState = 0
-    let thMouseColsWidths = []
-    let thMouseColsStyleWidths = []
+    let thMouseColsWidths: Array<number> = []
+    let thMouseColsStyleWidths: Array<number> = []
     let thMouseSelectedColIx = 0
 
     const columnsMinW = 250
     const columnsResizerHalfWidth = 3
 
+    function isWithinBounds(e: any, rect: DOMRect): boolean {
+      return (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.left + rect.width &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.top + rect.height
+      );
+    }
+
+    const getThs = (): Array<HTMLElement> | null  => tblHeader.value && Array.from(tblHeader.value.querySelectorAll('tr th'))
+
+    const getColgroupCols = (): Array<HTMLElement> | null => tbl.value && Array.from(tbl.value.querySelectorAll('colgroup col'))
+
     const thMouseDown = (ev: MouseEvent) => {
-      console.log('thMouseDown', ev)
+      // Cache the mouse position at the time of the mouse click.
       thMouseDownStartX = ev.clientX
       thMouseDownStartY = ev.clientY
 
       thMouseDownState = 1
 
+      // Get the column widths and cache them.
       thMouseColsWidths = []
       thMouseColsStyleWidths = []
-      thMouseSelectedColIx = -1
-      const cols = tbl.value?.querySelectorAll('colgroup col')
+      const cols = getColgroupCols()
       if (cols) {
         for (let i = 0; i < cols.length; i++) {
           const rect = cols[i].getBoundingClientRect()
-          console.log('thMouseMove 333', cols[i].style.width, rect.width)
           thMouseColsWidths.push(rect.width)
           thMouseColsStyleWidths.push(parseFloat(cols[i].style.width))
         }
       }
-      const ths = tblHeader.value?.querySelectorAll('tr th')
+
+      // Check if the mouse is over a column resizer, and cache the corresponding column.
+      thMouseSelectedColIx = -1
+      const ths = getThs()
       if (ths) {
         for (let i = 0; i < ths.length; i++) {
-          console.log('thMouseMove 555', ths[i], ev.target)
-          if (ths[i] === ev.target) {
-            const rect = ev.target.getBoundingClientRect()
+          const rect = ths[i].getBoundingClientRect()
+          if (isWithinBounds(ev, rect)) {
             const x = ev.clientX - rect.left // x position within the element.
-            const y = ev.clientY - rect.top  // y position within the element.
             if (x < columnsResizerHalfWidth && i > 0) {
               thMouseSelectedColIx = i - 1
             }
@@ -269,66 +299,53 @@ export default {
           }
         }
       }
-      console.log('thMouseMove 444', thMouseColsWidths, thMouseColsStyleWidths)
     }
 
     const thMouseUp = (ev: MouseEvent) => {
-      console.log('thMouseUp', ev)
       thMouseDownStartX = ev.clientX
       thMouseDownStartY = ev.clientY
       thMouseDownState = 0
     }
 
-    function isWithinBounds(e: any, rect: ClientRect): boolean {
-      return (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.left + rect.width &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.top + rect.height
-      );
-    }
-
     const thMouseMove = (ev: MouseEvent) => {
       // Change the mouse cursor to indicate that the user can resize the column, if the mouse is over the column's edge.
-      const ths = tblHeader.value?.querySelectorAll('tr th')
-      for (let i = 0; i < ths.length; i++) {
-        // if (ths[i] === ev.target) {
-        if (isWithinBounds(ev, ths[i].getBoundingClientRect())) {
-          const rect = ths[i].getBoundingClientRect()
-          const x = ev.clientX - rect.left // x position within the element.
-          const y = ev.clientY - rect.top  // y position within the element.
-          if ((x < columnsResizerHalfWidth && i > 0) || (x > rect.width - columnsResizerHalfWidth && i < ths.length - 1)) {
-            tblHeader.value?.classList.add('col-resize')
-            // console.log('thMouseMove Col Resize')
-          } else {
-            tblHeader.value?.classList.remove('col-resize')
-            // console.log('thMouseMove NOT Col Resize')
+      const ths = getThs()
+      if (ths) {
+        for (let i = 0; i < ths.length; i++) {
+          if (isWithinBounds(ev, ths[i].getBoundingClientRect())) {
+            const rect = ths[i].getBoundingClientRect()
+            const x = ev.clientX - rect.left // x position within the element.
+            if ((x < columnsResizerHalfWidth && i > 0) || (x > rect.width - columnsResizerHalfWidth && i < ths.length - 1)) {
+              tblHeader.value?.classList.add('col-resize')
+            } else {
+              tblHeader.value?.classList.remove('col-resize')
+            }
           }
         }
       }
 
       if (thMouseDownState === 1 && thMouseSelectedColIx >= 0) {
-        // console.log('thMouseMove', ev)
+        // The mouse is down and the user is resizing a column.
         tblHeader.value?.classList.add('col-resize2')
         const dX =  ev.clientX - thMouseDownStartX
-        const dY =  ev.clientY - thMouseDownStartY
-        console.log('thMouseMove 222', dX, dY)
-        const cols = tbl.value?.querySelectorAll('colgroup col')
+        const cols = getColgroupCols()
         if (cols) {
-          let colsWidth = 0
-          let colsStyleWidth = 0
+          let colsWidth = 0 // Total width of all columns.
+          let colsStyleWidth = 0 // Total width of all columns, as specified in the style attribute.
           for (let i = 0; i < cols.length; i++) {
             colsWidth += thMouseColsWidths[i]
             colsStyleWidth += thMouseColsStyleWidths[i]
           }
+
           const dX2 = (dX / colsWidth) * colsStyleWidth
           let w = thMouseColsStyleWidths[thMouseSelectedColIx] + dX2
           let w2 = thMouseColsStyleWidths[thMouseSelectedColIx + 1] - dX2
+
           if (w2 < columnsMinW) {
             w -= columnsMinW - w2
             w2 = columnsMinW
           }
-          console.log('thMouseMove 333', w)
+
           cols[thMouseSelectedColIx].style.width = w + 'px'
           cols[thMouseSelectedColIx + 1].style.width = w2 + 'px'
           xscroll()
@@ -339,6 +356,7 @@ export default {
     }
 
     window.addEventListener('mousemove', thMouseMove)
+    window.addEventListener('mouseup', thMouseUp)
 
     return {
       tbl,
@@ -417,7 +435,7 @@ export default {
                 :class="{ 'sortNum': column.tp === 'num', 'pl-1.5': getColumnStr(column) === '✓' }"
                 :style="column.overflow === 'visible' ? 'overflow: visible !important;' : ''"
                 @mousedown="thMouseDown"
-                @mouseup="thMouseUp"
+                @qqqmouseup="thMouseUp"
                 @qqqmousemove="thMouseMove"
               >
                 <span>{{ getColumnStr(column) }}</span>
@@ -430,9 +448,7 @@ export default {
       <div class="table-content nu-flex-shrink-grow" ref="tblContent" v-on:scroll="xscroll">
         <table ref="tbl">
           <colgroup>
-            <col span="1" style="width: 1000px;">
-            <col span="1" style="width: 1000px;">
-            <col span="1" style="width: 1000px;">
+            <col v-for="column in columns" v-bind:key="column.ky" span="1" style="width: 1000px;" />
           </colgroup>
           <tbody>
             <tr v-for="da in data" v-bind:key="da && da._id" :class="da._id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
