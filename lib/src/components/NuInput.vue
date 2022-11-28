@@ -12,6 +12,10 @@ export default {
       type: String,
       default: ''
     },
+    labelIcon: {
+      type: String,
+      default: ''
+    },
     subLabel: {
       type: String,
       default: ''
@@ -28,6 +32,10 @@ export default {
     mask: {
       type: String,
       default: ''
+    },
+    labelOrientation: {
+      type: String,
+      default: 'left'
     }
   },
 
@@ -154,6 +162,14 @@ export default {
       }
     })
 
+    const labelMouseEnter = (ev: MouseEvent) => {
+      (ev?.target as Element)?.classList.add('nux-hover')
+    }
+
+    const labelMouseLeave = (ev: MouseEvent) => {
+      (ev?.target as Element)?.classList.remove('nux-hover')
+    }
+
     return {
       inp,
       liveValue,
@@ -161,26 +177,41 @@ export default {
       showHelp,
 
       inputChanged,
-      clickHelp
+      clickHelp,
+      labelMouseEnter,
+      labelMouseLeave
     }
   }
 }
 </script>
 
 <template>
-  <div>
-    <label class="nu-label nu-flex nu-p-vert-0" v-if="label !== '' || subLabel !== '' || helpTxt !== ''">
+  <div
+    :class="{'nux-label-left nu-flex': labelOrientation === 'left'}"
+    @mouseenter="labelMouseEnter"
+    @mouseleave="labelMouseLeave"
+  >
+    <label
+      class="nu-label nu-flex nu-p-vert-0"
+      :class="{'nu-m-r-md': labelOrientation === 'left'}"
+      v-if="label !== '' || subLabel !== '' || helpTxt !== '' || labelOrientation === 'left'"
+    >
       <div class="nu-flex nu-flex-grow nu-flex-col">
         <div class="nu-flex nu-flex-grow nu-center-vert">
           <div class="nu-flex nu-flex-grow nu-flex-wrap nu-bottom-vert">
-            <div class="nu-label-text nu-m-r-md nu-m-vert-md">{{label}}</div>
+            <div class="nu-label-text nu-m-r-md nu-m-vert-md nu-flex">
+              <NuIcon class="nu-m-r-md nux-no-hover" v-if="labelIcon">
+                <component :is="labelIcon" />
+              </NuIcon>
+              {{label}}
+            </div>
 
             <NuGrow />
 
             <div class="nu-label-text-alt nu-ml-auto nu-mb-md">{{subLabel}}</div>
           </div>
 
-          <NuIcon @click="clickHelp" class="nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
+          <NuIcon @click="clickHelp" class="nux-help-btn nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
             <NuIconHelp />
           </NuIcon>
         </div>
@@ -190,7 +221,10 @@ export default {
         </div>
       </div>
     </label>
-    <div class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative nu-mb-md">
+    <div
+      class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative"
+      :class="{'nu-mb-md': labelOrientation !== 'left'}"
+    >
       <input
         class="nu-input nu-w-full"
         :class="{ 'nu-input-sm': size === 'sm', 'nu-pl-xl': icon }"
@@ -215,4 +249,18 @@ export default {
 
 .nux-inp-icon-wrapper:focus-within .nux-inp-icon-inner-wrapper
   color var(--nu-cl-focus) !important
+
+.nux-label-left
+  label
+    width 160px
+
+input
+  border-color white
+
+.nux-label-left:not(.nux-hover) .nux-help-btn
+  display: none
+
+NuIcon.nux-no-hover
+  cursor inherit
+  color inherit
 </style>
