@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 import { debouncedRef } from '@coyoda/core/debounce'
 import { numberFormat } from '@coyoda/core/number'
 import FormInput from './NuInput.vue'
+import NuIconChevronRight from './icons/NuIconChevronRight.vue'
 // import { $, jQuery } from 'jquery'
 // import $ from 'jquery'
 // import 'datatables.net'
@@ -29,7 +30,7 @@ export default {
       default: 1
     }
   },
-  emits: [ 'clicked-row', 'checkboxes-changed', 'filter-changed' ],
+  emits: [ 'clicked-row', 'checkboxes-changed', 'filter-changed', 'clicked-row-details-btn' ],
   setup(props, { emit }) {
     const tbl: Ref<HTMLElement | null> = ref(null)
     const tblHeader: Ref<HTMLElement | null> = ref(null)
@@ -364,6 +365,18 @@ export default {
     window.addEventListener('mousemove', thMouseMove)
     window.addEventListener('mouseup', thMouseUp)
 
+    const tdMouseEnter = (ev: MouseEvent) => {
+      (ev?.target as Element)?.classList.add('nux-hover')
+    }
+
+    const tdMouseLeave = (ev: MouseEvent) => {
+      (ev?.target as Element)?.classList.remove('nux-hover')
+    }
+
+    const clickDetailsBtn = (da: any) => {
+      emit('clicked-row-details-btn', da)
+    }
+
     return {
       tbl,
       tblHeader,
@@ -383,12 +396,16 @@ export default {
       getAlign,
       thMouseDown,
       thMouseUp,
-      thMouseMove
+      thMouseMove,
+      tdMouseEnter,
+      tdMouseLeave,
+      clickDetailsBtn
     }
   },
 
   components: {
-    FormInput
+    FormInput,
+    NuIconChevronRight
   }
 }
 </script>
@@ -467,7 +484,15 @@ export default {
           </colgroup>
           <tbody>
             <tr v-for="da in data" v-bind:key="da && da._id" :class="da._id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
-              <td v-for="column in columns" v-bind:key="da._id + column.ky" :align="getAlign(column)" v-on:click="column.ky !== '_checkbox_' ? clickRow(da) : null">
+              <td
+                v-for="column in columns"
+                v-bind:key="da._id + column.ky"
+                :align="getAlign(column)"
+                v-on:click="column.ky !== '_checkbox_' ? clickRow(da) : null"
+                class="nux-td"
+                @mouseenter="tdMouseEnter"
+                @mouseleave="tdMouseLeave"
+              >
                 <template v-if="column.ky === '_checkbox_'">
                   <label class="cursor-pointer qqqlabel">
                     <div>
@@ -477,7 +502,19 @@ export default {
                   </label>
                 </template>
                 <template v-else>
-                  <span v-html="getDat(da, column)"></span>
+                  <div class="nu-flex" >
+                    <span class="nu-flex-grow" v-html="getDat(da, column)"></span>
+                    <span
+                      class="nux-detail-btn nu-flex nu-flex-no-wrap nu-center-vert nu-center-self-horz nu-h-full"
+                      @click="clickDetailsBtn(da)"
+                      v-if="column.showDetailsButton"
+                    >
+                      {{ $t('Details') }}
+                      <NuIcon>
+                        <NuIconChevronRight />
+                      </NuIcon>
+                    </span>
+                  </div>
                 </template>
               </td>
             </tr>
@@ -586,6 +623,22 @@ NuIcon
   width 12px
   height 12px
   color #aaa
+
+.nux-td:not(.nux-hover) .nux-detail-btn
+  display: none
+
+.nux-detail-btn
+  color: #aaa
+  background-color white
+  white-space nowrap
+  position absolute
+  right 0
+  padding-left var(--nu-sz-sm)
+  cursor pointer
+  &:hover, &:hover NuIcon
+    color var(--nu-cl-focus)
+  & NuIcon
+    margin-left var(--nu-sz-sm)
 </style>
 
 <style>
