@@ -11,7 +11,7 @@ const emit = defineEmits(['go-back'])
 
 <template>
   <div class="nu-flex nu-flex-col nu-m-xl nu-mt-lg">
-    <div class="nu-flex nu-center-vert nu-mb-md">
+    <div class="nu-flex nu-center-vert nu-m-b-md">
       <h1>
         {{ title }}
       </h1>

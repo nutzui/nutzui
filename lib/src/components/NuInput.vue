@@ -208,7 +208,7 @@ export default {
 
             <NuGrow />
 
-            <div class="nu-label-text-alt nu-ml-auto nu-mb-md">{{subLabel}}</div>
+            <div class="nu-label-text-alt nu-ml-auto nu-m-b-md">{{subLabel}}</div>
           </div>
 
           <NuIcon @click="clickHelp" class="nux-help-btn nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
@@ -216,14 +216,14 @@ export default {
           </NuIcon>
         </div>
 
-        <div class="nu-mb-sm" v-if="showHelp && helpTxt !== ''">
+        <div class="nux-help-txt nu-mb-sm" v-if="showHelp && helpTxt !== '' && labelOrientation !== 'left'">
           {{ helpTxt }}
         </div>
       </div>
     </label>
     <div
       class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative"
-      :class="{'nu-mb-md': labelOrientation !== 'left'}"
+      :class="{'nu-m-b-md': labelOrientation !== 'left'}"
     >
       <input
         class="nu-input nu-w-full"
@@ -241,6 +241,12 @@ export default {
       </span>
     </div>
   </div>
+  <div class="nu-flex" v-if="showHelp && helpTxt !== '' && labelOrientation === 'left'">
+    <div class="nux-help-spacer nu-m-r-md"> </div>
+    <div class="nux-help-txt nu-m-b-md nu-m-l-md">
+      {{ helpTxt }}
+    </div>
+  </div>
 </template>
 
 <style scoped lang="stylus">
@@ -250,15 +256,21 @@ export default {
 .nux-inp-icon-wrapper:focus-within .nux-inp-icon-inner-wrapper
   color var(--nu-cl-focus) !important
 
-.nux-label-left
-  label
-    width 160px
+.nux-label-left label, .nux-help-spacer
+  width 130px
+  flex 0 0 130px
+
+.nux-help-txt
+  color #888
 
 input
   border-color white
 
 .nux-label-left:not(.nux-hover) .nux-help-btn
   display: none
+
+.nux-help-btn.active
+  display inherit !important
 
 NuIcon.nux-no-hover
   cursor inherit
