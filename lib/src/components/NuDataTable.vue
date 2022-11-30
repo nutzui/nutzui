@@ -185,7 +185,9 @@ export default {
           ret = ret.substr(1)
         }
         /* istanbul ignore else: Otherwise Istanbul shows an uncovered else. */
-        if (column.title) {
+        if (column.title.value) {
+          ret = column.title.value
+        } else if (column.title) {
           ret = column.title
         }
       }

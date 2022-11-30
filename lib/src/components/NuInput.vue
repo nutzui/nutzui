@@ -13,8 +13,8 @@ export default {
       default: ''
     },
     labelIcon: {
-      type: String,
-      default: ''
+      type: Object,
+      default: null
     },
     subLabel: {
       type: String,
@@ -36,10 +36,14 @@ export default {
     labelOrientation: {
       type: String,
       default: 'left'
+    },
+    fieldKy: {
+      type: String,
+      default: ''
     }
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: [ 'update:modelValue', 'input-focus-changed' ],
 
   components: { NuIconHelp },
 
@@ -231,6 +235,8 @@ export default {
         type="text"
         :value="liveValue"
         @input="inputChanged($event.target.value)"
+        @focus="$emit('input-focus-changed', { focused: true, ky: fieldKy })"
+        @blur="$emit('input-focus-changed', { focused: false, ky: fieldKy })"
         :placeholder="placehldr"
         ref="inp"
       />
