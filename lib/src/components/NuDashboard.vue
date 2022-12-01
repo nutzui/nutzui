@@ -31,7 +31,7 @@ const clickOverlay = () => {
       </slot>
     </aside>
 
-    <section class="nu-flex-shrink-grow nu-flex nu-flex-col">
+    <section class="nu-flex nu-flex-shrink-grow nu-flex-col nu-w-full">
       <!--Topbar-->
       <header class="">
         <slot name="topbar">
