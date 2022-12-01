@@ -366,6 +366,11 @@ export default {
 
     window.addEventListener('mousemove', thMouseMove)
     window.addEventListener('mouseup', thMouseUp)
+    // TODO - remove event listeners on unmount> See: xscroll above. Example:
+    // onMounted(() => window.addEventListener('mousemove', update))
+    // onUnmounted(() => window.removeEventListener('mousemove', update))
+    // TODO Move mouse stuff to composables. See: https://vuejs.org/guide/reusability/composables.html
+
 
     const tdMouseEnter = (ev: MouseEvent) => {
       (ev?.target as Element)?.classList.add('nux-hover')

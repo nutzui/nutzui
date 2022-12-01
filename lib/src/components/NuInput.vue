@@ -40,6 +40,10 @@ export default {
     fieldKy: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'text'
     }
   },
 
@@ -232,7 +236,7 @@ export default {
       <input
         class="nu-input nu-w-full"
         :class="{ 'nu-input-sm': size === 'sm', 'nu-pl-xl': icon }"
-        type="text"
+        :type="type"
         :value="liveValue"
         @input="inputChanged($event.target.value)"
         @focus="$emit('input-focus-changed', { focused: true, ky: fieldKy })"
