@@ -194,67 +194,69 @@ export default {
 </script>
 
 <template>
-  <div
-    :class="{'nux-label-left nu-flex': labelOrientation === 'left'}"
-    @mouseenter="labelMouseEnter"
-    @mouseleave="labelMouseLeave"
-  >
-    <label
-      class="nu-label nu-flex nu-p-vert-0"
-      :class="{'nu-m-r-md': labelOrientation === 'left'}"
-      v-if="label !== '' || subLabel !== '' || helpTxt !== '' || labelOrientation === 'left'"
+  <div>
+    <div
+      :class="{'nux-label-left nu-flex': labelOrientation === 'left'}"
+      @mouseenter="labelMouseEnter"
+      @mouseleave="labelMouseLeave"
     >
-      <div class="nu-flex nu-flex-grow nu-flex-col">
-        <div class="nu-flex nu-flex-grow nu-center-vert">
-          <div class="nu-flex nu-flex-grow nu-flex-wrap nu-bottom-vert">
-            <div class="nu-label-text nu-m-r-md nu-m-vert-md nu-flex">
-              <NuIcon class="nu-m-r-md nux-no-hover" v-if="labelIcon">
-                <component :is="labelIcon" />
-              </NuIcon>
-              {{label}}
+      <label
+        class="nu-label nu-flex nu-p-vert-0"
+        :class="{'nu-m-r-md': labelOrientation === 'left'}"
+        v-if="label !== '' || subLabel !== '' || helpTxt !== '' || labelOrientation === 'left'"
+      >
+        <div class="nu-flex nu-flex-grow nu-flex-col">
+          <div class="nu-flex nu-flex-grow nu-center-vert">
+            <div class="nu-flex nu-flex-grow nu-flex-wrap nu-bottom-vert">
+              <div class="nu-label-text nu-m-r-md nu-m-vert-md nu-flex">
+                <NuIcon class="nu-m-r-md nux-no-hover" v-if="labelIcon">
+                  <component :is="labelIcon" />
+                </NuIcon>
+                {{label}}
+              </div>
+
+              <NuGrow />
+
+              <div class="nu-label-text-alt nu-ml-auto nu-m-b-md">{{subLabel}}</div>
             </div>
 
-            <NuGrow />
-
-            <div class="nu-label-text-alt nu-ml-auto nu-m-b-md">{{subLabel}}</div>
+            <NuIcon @click="clickHelp" class="nux-help-btn nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
+              <NuIconHelp />
+            </NuIcon>
           </div>
 
-          <NuIcon @click="clickHelp" class="nux-help-btn nu-m-l-md nu-clickable" :class="{ 'active': showHelp }" v-if="helpTxt !== ''">
-            <NuIconHelp />
-          </NuIcon>
+          <div class="nux-help-txt nu-mb-sm" v-if="showHelp && helpTxt !== '' && labelOrientation !== 'left'">
+            {{ helpTxt }}
+          </div>
         </div>
-
-        <div class="nux-help-txt nu-mb-sm" v-if="showHelp && helpTxt !== '' && labelOrientation !== 'left'">
-          {{ helpTxt }}
-        </div>
+      </label>
+      <div
+        class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative"
+        :class="{'nu-m-b-md': labelOrientation !== 'left'}"
+      >
+        <input
+          class="nu-input nu-w-full"
+          :class="{ 'nu-input-sm': size === 'sm', 'nu-pl-xl': icon }"
+          :type="type"
+          :value="liveValue"
+          @input="inputChanged($event.target.value)"
+          @focus="$emit('input-focus-changed', { focused: true, ky: fieldKy })"
+          @blur="$emit('input-focus-changed', { focused: false, ky: fieldKy })"
+          :placeholder="placehldr"
+          ref="inp"
+        />
+        <span class="nux-inp-icon-inner-wrapper nu-flex-shrink-not-grow nu-absolute nu-m-l-md nu-w-lg nu-top-bottom-0 nu-flex nu-center-vert" v-if="icon">
+          <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+          </svg>
+        </span>
       </div>
-    </label>
-    <div
-      class="nux-inp-icon-wrapper nu-flex nu-center-vert nu-w-full nu-relative"
-      :class="{'nu-m-b-md': labelOrientation !== 'left'}"
-    >
-      <input
-        class="nu-input nu-w-full"
-        :class="{ 'nu-input-sm': size === 'sm', 'nu-pl-xl': icon }"
-        :type="type"
-        :value="liveValue"
-        @input="inputChanged($event.target.value)"
-        @focus="$emit('input-focus-changed', { focused: true, ky: fieldKy })"
-        @blur="$emit('input-focus-changed', { focused: false, ky: fieldKy })"
-        :placeholder="placehldr"
-        ref="inp"
-      />
-      <span class="nux-inp-icon-inner-wrapper nu-flex-shrink-not-grow nu-absolute nu-m-l-md nu-w-lg nu-top-bottom-0 nu-flex nu-center-vert" v-if="icon">
-        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-        </svg>
-      </span>
     </div>
-  </div>
-  <div class="nu-flex" v-if="showHelp && helpTxt !== '' && labelOrientation === 'left'">
-    <div class="nux-help-spacer nu-m-r-md"> </div>
-    <div class="nux-help-txt nu-m-b-md nu-m-l-md">
-      {{ helpTxt }}
+    <div class="nu-flex" v-if="showHelp && helpTxt !== '' && labelOrientation === 'left'">
+      <div class="nux-help-spacer nu-m-r-md"> </div>
+      <div class="nux-help-txt nu-m-b-md nu-m-l-md">
+        {{ helpTxt }}
+      </div>
     </div>
   </div>
 </template>
