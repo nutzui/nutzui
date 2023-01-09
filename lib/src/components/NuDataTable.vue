@@ -15,7 +15,7 @@ import NuIconChevronRight from './icons/NuIconChevronRight.vue'
 export default {
   props: {
     columns: Array,
-    dat: Array,
+    dat: Object, // Array,
     totals: Object,
     showFilter: {
       type: Boolean,
