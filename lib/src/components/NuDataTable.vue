@@ -37,7 +37,7 @@ export default {
     const tblFooter: Ref<HTMLElement | null> = ref(null)
     const tblContent: Ref<HTMLElement | null> = ref(null)
     const filterText = debouncedRef('', 300)
-    const data = ref(toRefs(props).dat)
+    // const data = ref(toRefs(props).dat)
     const sortKey = ref(toRefs(props).sortKey)
     const sortDir = ref(toRefs(props).sortDir)
     const checkboxes = ref([])
@@ -45,7 +45,7 @@ export default {
 
     const _data = computed(() => {
       if (filterText.value && filterText.value !== '') {
-        return data.value.filter(dat => {
+        return props.dat.value.filter(dat => {
           /* istanbul ignore else: Otherwise Istanbul shows an uncovered else. */
           if (dat && dat.name) {
             return dat.name.toLowerCase().indexOf(filterText.value) >= 0
@@ -55,9 +55,9 @@ export default {
         })
       }
       if (sortKey.value) {
-        return data.value.sort((a, b) => (a[sortKey.value] < b[sortKey.value]) ? -sortDir.value : sortDir.value)
+        return props.dat.value.sort((a, b) => (a[sortKey.value] < b[sortKey.value]) ? -sortDir.value : sortDir.value)
       } else {
-        return data.value
+        return props.dat.value
       }
     })
 
