@@ -161,7 +161,7 @@ export default {
 
     function clickRow (da) {
       emit('clicked-row', da)
-      selectedId.value = da._id
+      selectedId.value = da.__id
     }
 
     function clickUnselectAll () {
@@ -490,10 +490,10 @@ export default {
             <col v-for="column in columns" v-bind:key="column.ky" span="1" style="width: 1000px;" />
           </colgroup>
           <tbody>
-            <tr v-for="da in data" v-bind:key="da && da._id" :class="da._id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
+            <tr v-for="da in data" v-bind:key="da && da.__id" :class="da.__id === selectedId ? 'bg-purple-200' : 'odd:bg-white even:bg-rhgray'">
               <td
                 v-for="column in columns"
-                v-bind:key="da._id + column.ky"
+                v-bind:key="da.__id + column.ky"
                 :align="getAlign(column)"
                 v-on:click="column.ky !== '_checkbox_' ? clickRow(da) : null"
                 class="nux-td"
@@ -503,7 +503,7 @@ export default {
                 <template v-if="column.ky === '_checkbox_'">
                   <label class="cursor-pointer qqqlabel">
                     <div>
-                      <input type="checkbox" :value="da._id" v-model="checkboxes" class="checkbox">
+                      <input type="checkbox" :value="da.__id" v-model="checkboxes" class="checkbox">
                       <span class="checkbox-mark"></span>
                     </div>
                   </label>
