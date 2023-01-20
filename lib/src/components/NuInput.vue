@@ -269,8 +269,8 @@ export default {
   color var(--nu-cl-focus) !important
 
 .nux-label-left label, .nux-help-spacer
-  width 130px
-  flex 0 0 130px
+  width var(--nu-column-label-left)
+  flex 0 0 var(--nu-column-label-left)
 
 .nux-help-txt
   color #888
