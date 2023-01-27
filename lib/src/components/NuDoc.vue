@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import './nutzui.styl'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { ySyncPlugin } from '@coyoda/core/item-y'
+import { t } from 'i18next'
 
 import { useEditor, Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
@@ -12,12 +13,19 @@ import Highlight from '@tiptap/extension-highlight'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 
+import Heading from '@tiptap/extension-heading'
+import Placeholder from '@tiptap/extension-placeholder'
+
 import MenuBar from './NuToolbar.vue'
 
 /*
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 */
+
+const DocumentWithHeading = Document.extend({
+  content: 'heading block*',
+})
 
 const props = defineProps({
   xmlfragment: Object,
@@ -28,9 +36,23 @@ let editor2: any = ref(null)
 onMounted(() => {
   editor2.value = new Editor({
     extensions: [
+      DocumentWithHeading,
+
       StarterKit.configure({
+        document: false,
         // The Collaboration extension comes with its own history handling
+        // TODO Create own undo/redo based on the users own changes (not the changes of others.)
         history: false,
+      }),
+
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          if (node.type.name === 'heading') {
+            return t('What’s the title?') // TODO Should be computed.
+          }
+
+          return 'Anything else to add?' // TODO Do we want this? What text? Should be computed.
+        },
       }),
 
       // Register the document with Tiptap
@@ -44,6 +66,7 @@ onMounted(() => {
       // Document,
       // Paragraph,
       // Text,
+      // Heading,
 
       Highlight,
       TaskList,
@@ -179,4 +202,15 @@ onUnmounted(() => {
         accent-color var(--nu-cl-focus) !important
       > div
         flex: 1 1 auto;
+
+/* Placeholder (at the top) */
+// .ProseMirror p.is-editor-empty:first-child::before
+// .ProseMirror .is-empty:first-child::before
+/* Placeholder (on every new line) */
+.ProseMirror .is-empty::before
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
 </style>

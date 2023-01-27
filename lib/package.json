@@ -19,6 +19,7 @@
     "@ag-grid-community/styles": "^28.2.1",
     "@tiptap/extension-collaboration": "^2.0.0-beta.209",
     "@tiptap/extension-highlight": "^2.0.0-beta.209",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.209",
     "@tiptap/extension-task-item": "^2.0.0-beta.209",
     "@tiptap/extension-task-list": "^2.0.0-beta.209",
     "@tiptap/starter-kit": "^2.0.0-beta.209",
