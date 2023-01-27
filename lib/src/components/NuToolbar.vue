@@ -43,12 +43,12 @@ export default {
           action: () => this.editor.chain().focus().toggleStrike().run(),
           isActive: () => this.editor.isActive('strike'),
         },
-        {
-          icon: 'code-view',
-          title: 'Code',
-          action: () => this.editor.chain().focus().toggleCode().run(),
-          isActive: () => this.editor.isActive('code'),
-        },
+        // {
+        //   icon: 'code-view',
+        //   title: 'Code',
+        //   action: () => this.editor.chain().focus().toggleCode().run(),
+        //   isActive: () => this.editor.isActive('code'),
+        // },
         {
           icon: 'mark-pen-line',
           title: 'Highlight',
@@ -94,12 +94,12 @@ export default {
           action: () => this.editor.chain().focus().toggleTaskList().run(),
           isActive: () => this.editor.isActive('taskList'),
         },
-        {
-          icon: 'code-box-line',
-          title: 'Code Block',
-          action: () => this.editor.chain().focus().toggleCodeBlock().run(),
-          isActive: () => this.editor.isActive('codeBlock'),
-        },
+        // {
+        //   icon: 'code-box-line',
+        //   title: 'Code Block',
+        //   action: () => this.editor.chain().focus().toggleCodeBlock().run(),
+        //   isActive: () => this.editor.isActive('codeBlock'),
+        // },
         {
           type: 'divider',
         },
@@ -117,11 +117,11 @@ export default {
         {
           type: 'divider',
         },
-        {
-          icon: 'text-wrap',
-          title: 'Hard Break',
-          action: () => this.editor.chain().focus().setHardBreak().run(),
-        },
+        // {
+        //   icon: 'text-wrap',
+        //   title: 'Hard Break',
+        //   action: () => this.editor.chain().focus().setHardBreak().run(),
+        // },
         {
           icon: 'format-clear',
           title: 'Clear Format',
@@ -131,26 +131,26 @@ export default {
             .unsetAllMarks()
             .run(),
         },
-        {
-          type: 'divider',
-        },
-        {
-          icon: 'arrow-go-back-line',
-          title: 'Undo',
-          action: () => this.editor.chain().focus().undo().run(),
-        },
-        {
-          icon: 'arrow-go-forward-line',
-          title: 'Redo',
-          action: () => this.editor.chain().focus().redo().run(),
-        },
+        // {
+        //   type: 'divider',
+        // },
+        // {
+        //   icon: 'arrow-go-back-line',
+        //   title: 'Undo',
+        //   action: () => this.editor.chain().focus().undo().run(),
+        // },
+        // {
+        //   icon: 'arrow-go-forward-line',
+        //   title: 'Redo',
+        //   action: () => this.editor.chain().focus().redo().run(),
+        // },
       ],
     }
   },
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .divider {
   width: 2px;
   height: 1.25rem;

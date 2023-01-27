@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;
@@ -55,6 +55,7 @@ export default {
   border-radius: 0.4rem;
   padding: 0.25rem;
   margin-right: 0.25rem;
+  transition-duration: 0.1s;
 
   svg {
     width: 100%;
@@ -64,8 +65,8 @@ export default {
 
   &.is-active,
   &:hover {
-    color: #FFF;
-    background-color: #0D0D0D;
+    color: var(--nu-cl-focus);
+    // background-color: var(--nu-cl-focus);
   }
 }
 </style>
