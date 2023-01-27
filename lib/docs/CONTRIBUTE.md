@@ -18,6 +18,9 @@ See NuIconPlusCircle.vue as areference.
 
 Place the icons inside /lib/components/icons.
 
+Also a lhuge set of (both svg and font) app icons:
+https://remixicon.com
+
 ## Flags
 
 Many UX designers are against using flags for language selectors, because users can be offended (for instance showing a US flag for English to British people.)
