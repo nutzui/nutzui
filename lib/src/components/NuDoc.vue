@@ -15,6 +15,9 @@ import TaskList from '@tiptap/extension-task-list'
 
 import Heading from '@tiptap/extension-heading'
 import Placeholder from '@tiptap/extension-placeholder'
+import TextAlign from '@tiptap/extension-text-align'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
 
 import MenuBar from './NuToolbar.vue'
 
@@ -68,16 +71,24 @@ onMounted(() => {
       // Text,
       // Heading,
 
-      Highlight,
       TaskList,
       TaskItem,
+
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Color,
+      TextStyle,
+      Highlight.configure({
+        multicolor: true,
+      })
     ],
     autofocus: true,
     editable: true,
     injectCSS: false,
   })
 
-  editor2.value.registerPlugin(ySyncPlugin(props.xmlfragment))
+  editor2.value.registerPlugin(ySyncPlugin(props.xmlfragment)) // TODO Better do this via an own custom TipTap extension. See: https://tiptap.dev/guide/custom-extensions#prosemirror-plugins
 })
 
 onUnmounted(() => {
@@ -140,17 +151,23 @@ onUnmounted(() => {
 /* Basic editor styles */
 .ProseMirror
   outline none
+  white-space pre-wrap
 
   // > * + *
     // margin-top: 0.75em;
   p
     margin 0
-    line-height 1.2
+    line-height 1.4
   ul, ol
     padding: 0 1rem;
 
   h1, h2, h3, h4, h5, h6
-    line-height: 1.1;
+    line-height 1.2
+    margin-top 12px
+    margin-bottom 6px
+    &:first-child
+      margin-top 0
+  
   code
     background-color: rgba(#616161, 0.1);
     color: #616161;

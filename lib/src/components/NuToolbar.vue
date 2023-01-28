@@ -2,6 +2,30 @@
   <div>
     <template v-for="(item, index) in items">
       <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
+      <div v-else-if="item.type === 'color'" :key="`color${index}`" class="nu-flex nu-flex-col nu-m-r-md">
+        <div class="nux-char-a nu-center-self-horz" @click="clickColorpicker">
+          A
+        </div>
+        <input
+          type="color"
+          @input="editor.chain().focus().setColor($event.target.value).run()"
+          :value="editor.getAttributes('textStyle').color || '#000000'"
+          ref="colorpicker"
+        >
+      </div>
+      <div v-else-if="item.type === 'bgcolor'" :key="`bgcolor${index}`" class="nu-flex nu-flex-col nu-m-r-md">
+        <div class="nux-marker nu-center-self-horz" @click="clickBgColorpicker">
+          <svg class="remix">
+            <use :xlink:href="`${remixiconUrl}#ri-mark-pen-line`" />
+          </svg>
+        </div>
+        <input
+          type="color"
+          @input="editor.chain().focus().toggleHighlight({ color: $event.target.value }).run()"
+          :value="editor.getAttributes('highlight').color || '#000000'"
+          ref="bgcolorpicker"
+        >
+      </div>
       <menu-item v-else :key="index" v-bind="item" />
     </template>
   </div>
@@ -9,6 +33,8 @@
 
 <script>
 import MenuItem from './NuToolbarItem.vue'
+import { ref } from 'vue'
+import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 
 export default {
   components: {
@@ -23,7 +49,22 @@ export default {
   },
 
   data() {
+    const colorpicker = ref(null)
+    const bgcolorpicker = ref(null)
+
     return {
+      colorpicker,
+      bgcolorpicker,
+      remixiconUrl,
+
+      clickColorpicker: () => {
+        this.$refs.colorpicker?.[0]?.click()
+      },
+
+      clickBgColorpicker: () => {
+        this.$refs.bgcolorpicker?.[0]?.click()
+      },
+
       items: [
         {
           icon: 'bold',
@@ -49,12 +90,12 @@ export default {
         //   action: () => this.editor.chain().focus().toggleCode().run(),
         //   isActive: () => this.editor.isActive('code'),
         // },
-        {
-          icon: 'mark-pen-line',
-          title: 'Highlight',
-          action: () => this.editor.chain().focus().toggleHighlight().run(),
-          isActive: () => this.editor.isActive('highlight'),
-        },
+        // {
+        //   icon: 'mark-pen-line',
+        //   title: 'Highlight',
+        //   action: () => this.editor.chain().focus().toggleHighlight().run(),
+        //   isActive: () => this.editor.isActive('highlight'),
+        // },
         {
           type: 'divider',
         },
@@ -69,6 +110,18 @@ export default {
           title: 'Heading 2',
           action: () => this.editor.chain().focus().toggleHeading({ level: 2 }).run(),
           isActive: () => this.editor.isActive('heading', { level: 2 }),
+        },
+        {
+          icon: 'h-3',
+          title: 'Heading 3',
+          action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run(),
+          isActive: () => this.editor.isActive('heading', { level: 3 }),
+        },
+        {
+          icon: 'h-4',
+          title: 'Heading 4',
+          action: () => this.editor.chain().focus().toggleHeading({ level: 4 }).run(),
+          isActive: () => this.editor.isActive('heading', { level: 4 }),
         },
         {
           icon: 'paragraph',
@@ -89,7 +142,8 @@ export default {
           isActive: () => this.editor.isActive('orderedList'),
         },
         {
-          icon: 'list-check-2',
+          // icon: 'list-check-2',
+          icon: 'checkbox-line',
           title: 'Task List',
           action: () => this.editor.chain().focus().toggleTaskList().run(),
           isActive: () => this.editor.isActive('taskList'),
@@ -144,6 +198,42 @@ export default {
         //   title: 'Redo',
         //   action: () => this.editor.chain().focus().redo().run(),
         // },
+        {
+          type: 'divider',
+        },
+        {
+          icon: 'align-left',
+          title: 'Align left',
+          action: () => this.editor.chain().focus().setTextAlign('left').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'left' }),
+        },
+        {
+          icon: 'align-center',
+          title: 'Align center',
+          action: () => this.editor.chain().focus().setTextAlign('center').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'center' }),
+        },
+        {
+          icon: 'align-right',
+          title: 'Align right',
+          action: () => this.editor.chain().focus().setTextAlign('right').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'right' }),
+        },
+        {
+          icon: 'align-justify',
+          title: 'Align justify',
+          action: () => this.editor.chain().focus().setTextAlign('justify').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'justify' }),
+        },
+        {
+          type: 'divider',
+        },
+        {
+          type: 'color',
+        },
+        {
+          type: 'bgcolor',
+        },
       ],
     }
   },
@@ -158,4 +248,28 @@ export default {
   margin-left: 0.5rem;
   margin-right: 0.75rem;
 }
+
+input[type="color"]
+  -webkit-appearance: none;
+  border: none;
+  width: 16px;
+  height: 4px;
+  padding 0
+  cursor pointer
+input[type="color"]::-webkit-color-swatch-wrapper
+  padding: 0;
+input[type="color"]::-webkit-color-swatch
+  border: none;
+
+.nux-char-a
+  line-height 1
+  cursor pointer
+
+.nux-marker, .nux-marker svg
+  width 14px
+  height 14px
+  cursor pointer
+.nux-marker
+  margin-bottom 4px
+  margin-top -3px
 </style>
