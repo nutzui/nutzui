@@ -18,8 +18,22 @@ See NuIconPlusCircle.vue as areference.
 
 Place the icons inside /lib/components/icons.
 
-Also a lhuge set of (both svg and font) app icons:
+Also a huge set of (both svg and font) app icons:
 https://remixicon.com
+
+## Iconify
+
+Iconify has icons from hundreds of icon sets (including Material, HeroIcons and RemixIcons):
+https://iconify.design
+And they have a library to make it very easy to include icons in a Vue/Vite project:
+https://github.com/antfu/unplugin-icons
+But in the end I decided to only use Iconify for searching icons and then copy the SVG files of the icons I need.
+
+To find icons with Iconify:
+https://icon-sets.iconify.design/?query=highlight
+
+To find icons with Iconify for a specific set (like RemixIcon):
+https://icon-sets.iconify.design/ri/bold/
 
 ## Flags
 

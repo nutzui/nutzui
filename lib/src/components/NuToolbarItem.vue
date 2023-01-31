@@ -1,23 +1,10 @@
-<template>
-  <button
-    class="menu-item"
-    :class="{ 'is-active': isActive ? isActive(): null }"
-    @click="action"
-    :title="title"
-  >
-    <svg class="remix">
-      <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
-    </svg>
-  </button>
-</template>
-
-<script>
+<script setup lang="ts">
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
+// TODO Replace all Remix icons by own (svg) icons.
 
-export default {
-  props: {
-    icon: {
-      type: String,
+defineProps({
+  icon: {
+      // type: String,
       required: true,
     },
 
@@ -35,17 +22,43 @@ export default {
       type: Function,
       default: null,
     },
-  },
+})
 
-  data() {
-    return {
-      remixiconUrl,
-    }
-  },
-}
 </script>
 
+<template>
+  <NuIcon
+    v-if="typeof icon === 'object'"
+    qqqclass="nux-main-menu-toggle nu-m-r-sm nu-clickable"
+    :class="{ 'is-active': isActive ? isActive(): null }"
+    @click="action"
+    :title="title"
+  >
+    <component :is="icon" />
+  </NuIcon>
+
+  <button
+    v-else
+    class="menu-item"
+    :class="{ 'is-active': isActive ? isActive(): null }"
+    @click="action"
+    :title="title"
+  >
+    <!-- <span v-html="SvgBold" /> -->
+    <svg class="remix">
+      <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
+    </svg>
+  </button>
+</template>
+
 <style lang="stylus" scoped>
+NuIcon
+  &.is-active,
+    &:hover {
+      color: var(--nu-cl-focus);
+      // background-color: var(--nu-cl-focus);
+    }
+
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;

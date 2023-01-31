@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ag-grid-community/styles": "^28.2.1",
+    "@iconify/json": "^2.2.14",
     "@tiptap/extension-collaboration": "^2.0.0-beta.209",
     "@tiptap/extension-color": "^2.0.0-beta.209",
     "@tiptap/extension-highlight": "^2.0.0-beta.209",
@@ -42,6 +43,8 @@
     "prosemirror-transform": "^1.7.1",
     "prosemirror-view": "^1.30.0",
     "remixicon": "^2.5.0",
+    "unplugin-icons": "^0.15.2",
+    "unplugin-vue-components": "^0.23.0",
     "vue": "^3.2.41",
     "y-prosemirror": "^1.2.0",
     "y-webrtc": "^10.2.4",

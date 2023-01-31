@@ -54,7 +54,7 @@ onMounted(() => {
             return t('What’s the title?') // TODO Should be computed.
           }
 
-          return 'Anything else to add?' // TODO Do we want this? What text? Should be computed.
+          return 'Anything else to add?' // 'Write something...' // TODO Do we want this? What text? Should be computed.
         },
       }),
 
