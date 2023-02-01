@@ -19,7 +19,8 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  goto: Function
+  goto: Function,
+  showadvanced: Boolean,
 })
 
 const colorpicker = ref(null)
@@ -243,7 +244,7 @@ const items = [
 <template>
   <div class="nu-flex">
     <template v-for="(item, index) in items">
-      <template v-if="item.advanced !== true">
+      <template v-if="(item.advanced || false) === showadvanced || showadvanced">
         <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
         <div v-else-if="item.type === 'h-toggle'" :key="`htoggle${index}`" class="nux-htoggle nu-flex nu-center-vert nu-cursor-pointer" @click="toggleHeading">
           <span v-if="props.editor?.state?.selection?.$anchor?.path?.[1] === 0 && props.editor?.state?.selection?.$anchor?.path?.[2] === 0">Title</span>

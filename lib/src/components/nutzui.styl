@@ -106,7 +106,7 @@ h4
   }
 }
 
-button, .nu-button, .nu-side-menu li
+button, .nu-button, .nu-side-menu li, .nu-side-menu .nu-switch
   nu-transition()
   min-height var(--nu-sz-input-height)
   padding var(--nu-sz-md)
@@ -149,7 +149,7 @@ button, .nu-button, .nu-side-menu li
 
 .nu-side-menu
   padding-inline-start 0
-  & li
+  & li, & .nu-switch
     background-color inherit
     justify-content start
     text-transform none
@@ -159,6 +159,8 @@ button, .nu-button, .nu-side-menu li
       outline none
       border none
       background-color inherit
+  & .nu-switch
+    animation none !important
 
 NuIcon
   display flex
