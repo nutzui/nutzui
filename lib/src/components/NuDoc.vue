@@ -32,6 +32,7 @@ const DocumentWithHeading = Document.extend({
 
 const props = defineProps({
   xmlfragment: Object,
+  goto: Function,
 })
 
 let editor2: any = ref(null)
@@ -101,7 +102,7 @@ onUnmounted(() => {
   <!-- <br><br> -->
 
   <div class="editor" v-if="editor2">
-    <menu-bar class="editor__header" :editor="editor2" />
+    <MenuBar class="editor__header" :editor="editor2" :goto="goto" />
     <editor-content class="editor__content" :editor="editor2" />
   </div>
 </template>

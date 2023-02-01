@@ -16,9 +16,10 @@ import NuIconMore from '@nutzui/nutzui/components/icons/NuIconMore.vue'
 
 const props = defineProps({
   editor: {
-      type: Object,
-      required: true,
-    },
+    type: Object,
+    required: true,
+  },
+  goto: Function
 })
 
 const colorpicker = ref(null)
@@ -41,6 +42,28 @@ const toggleHeading = () => {
 }
 
 const items = [
+{
+    icon: NuIconListBullet,
+    title: 'Bullet List',
+    action: () => props.editor.chain().focus().toggleBulletList().run(),
+    isActive: () => props.editor.isActive('bulletList'),
+  },
+  {
+    icon: 'list-ordered',
+    title: 'Ordered List',
+    action: () => props.editor.chain().focus().toggleOrderedList().run(),
+    isActive: () => props.editor.isActive('orderedList'),
+    advanced: true,
+  },
+  {
+    icon: NuIconListCheck,
+    title: 'Checklist',
+    action: () => props.editor.chain().focus().toggleTaskList().run(),
+    isActive: () => props.editor.isActive('taskList'),
+  },
+  {
+    type: 'divider',
+  },
   {
     icon: NuIconBold,
     title: 'Bold',
@@ -75,6 +98,7 @@ const items = [
   },
   {
     type: 'divider',
+    advanced: true,
   },
   {
     type: 'h-toggle',
@@ -114,25 +138,6 @@ const items = [
   //   action: () => props.editor.chain().focus().setParagraph().run(),
   //   isActive: () => props.editor.isActive('paragraph'),
   // },
-  {
-    icon: NuIconListBullet,
-    title: 'Bullet List',
-    action: () => props.editor.chain().focus().toggleBulletList().run(),
-    isActive: () => props.editor.isActive('bulletList'),
-  },
-  {
-    icon: 'list-ordered',
-    title: 'Ordered List',
-    action: () => props.editor.chain().focus().toggleOrderedList().run(),
-    isActive: () => props.editor.isActive('orderedList'),
-    advanced: true,
-  },
-  {
-    icon: NuIconListCheck,
-    title: 'Checklist',
-    action: () => props.editor.chain().focus().toggleTaskList().run(),
-    isActive: () => props.editor.isActive('taskList'),
-  },
   // {
   //   icon: 'code-box-line',
   //   title: 'Code Block',
@@ -279,7 +284,7 @@ const items = [
     <NuGrow />
 
     <NuIcon>
-      <NuIconMore />
+      <NuIconMore @click="goto('editor-more')" />
     </NuIcon>
   </div>
 </template>
@@ -289,8 +294,8 @@ const items = [
   width: 2px;
   height: 1.25rem;
   background-color: rgba(#000, 0.1);
-  margin-left: 0.5rem;
-  margin-right: 0.75rem;
+  margin-left: 0.6rem;
+  margin-right: 0.3rem;
 }
 
 input[type="color"]
