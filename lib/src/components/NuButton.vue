@@ -9,6 +9,10 @@ defineProps({
       required: false,
       default: 'button'
   },
+  icon: {
+      type: Object,
+      required: false,
+  },
   type: {
     type: String,
     default: 'text'
@@ -27,6 +31,13 @@ const slots = useSlots()
     <NuIcon v-if="slots.icon" class="nu-m-r-sm">
       <slot name="icon"></slot>
     </NuIcon>
+    <NuIcon v-if="icon" class="nu-m-r-sm">
+      <component :is="icon" />
+    </NuIcon>
     {{ title }}
+    <NuGrow />
+    <NuIcon v-if="slots.iconright" class="nu-m-l-sm">
+      <slot name="iconright"></slot>
+    </NuIcon>
   </component>
 </template>

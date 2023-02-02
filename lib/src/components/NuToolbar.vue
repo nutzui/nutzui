@@ -19,9 +19,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  goto: Function,
   showadvanced: Boolean,
 })
+
+const emit = defineEmits(['editor-more'])
 
 const colorpicker = ref(null)
 const bgcolorpicker = ref(null)
@@ -285,7 +286,7 @@ const items = [
     <NuGrow />
 
     <NuIcon>
-      <NuIconMore @click="goto('editor-more')" />
+      <NuIconMore @click="emit('editor-more')" />
     </NuIcon>
   </div>
 </template>

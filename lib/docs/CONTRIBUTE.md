@@ -18,6 +18,19 @@ See NuIconPlusCircle.vue as areference.
 
 Place the icons inside /lib/components/icons.
 
+Test the icons next to all our icons:
+http://127.0.0.1:8308/#/testicons
+
+## Hero Icons
+
+https://icon-sets.iconify.design/heroicons/banknotes/
+
+https://heroicons.dev
+
+## Remix Icons
+
+https://icon-sets.iconify.design/ri/bold/
+
 Also a huge set of (both svg and font) app icons:
 https://remixicon.com
 

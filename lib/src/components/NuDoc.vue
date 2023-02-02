@@ -32,9 +32,10 @@ const DocumentWithHeading = Document.extend({
 
 const props = defineProps({
   xmlfragment: Object,
-  goto: Function,
   showadvanced: Boolean,
 })
+
+const emit = defineEmits(['editor-more'])
 
 let editor2: any = ref(null)
 
@@ -106,7 +107,7 @@ onUnmounted(() => {
     <MenuBar
       class="editor__header"
       :editor="editor2"
-      :goto="goto"
+      @editor-more="emit('editor-more')"
       :showadvanced="showadvanced"
     />
     <editor-content class="editor__content" :editor="editor2" />

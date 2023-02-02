@@ -10,9 +10,9 @@ const emit = defineEmits(['go-back'])
 </script>
 
 <template>
-  <div class="nu-flex nu-flex-col nu-m-xl nu-mt-lg">
-    <div class="nu-flex nu-center-vert nu-m-b-md">
-      <h1>
+  <div class="nu-flex nu-flex-col">
+    <div class="nux-sidebar-header nu-p-md nu-p-horz-lg nu-flex nu-center-vert nu-m-b-md">
+      <h1 class="nu-m-l-sm">
         {{ title }}
       </h1>
 
@@ -26,13 +26,20 @@ const emit = defineEmits(['go-back'])
       </NuIcon>
     </div>
 
-    <menu class="nu-side-menu nu-flex nu-flex-col">
+    <menu class="nu-side-menu nu-p-md nu-p-horz-lg nu-flex nu-flex-col">
       <slot />
     </menu>
   </div>
 </template>
 
 <style lang="stylus" scoped>
+.nux-sidebar-header
+  box-shadow rgba(127, 127, 127, 0.08) 0px 0px 20px
+
 .nux-close
-  margin-right calc(-1 * var(--nu-sz-lg))
+  margin-right calc(-1 * var(--nu-sz-md))
+
+.nu-side-menu
+  :deep(NuIcon)
+    color #999
 </style>

@@ -2,6 +2,8 @@
 import './nutzui.styl'
 import NuIconCheckmark from './icons/NuIconCheckmark.vue'
 
+// See: https://dev.to/thomaslombart/how-to-build-a-reusable-and-accessible-toggle-switch-with-vue-3hh7
+
 defineProps({
   title: {
     type: String,

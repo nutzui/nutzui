@@ -137,6 +137,8 @@ button, .nu-button, .nu-side-menu li, .nu-side-menu .nu-switch
     background-color var(--nu-cl-hover)
     color var(--nu-cl-focus)
     // border 1px solid var(--nu-cl-focus)
+    & nuicon
+      color var(--nu-cl-focus)
   &:focus
     box-shadow none
     outline none
@@ -146,6 +148,8 @@ button, .nu-button, .nu-side-menu li, .nu-side-menu .nu-switch
   &:active
     animation button-pop 0.25s ease-out
     border none
+  & nuicon
+    nu-transition()
 
 .nu-side-menu
   padding-inline-start 0
@@ -276,6 +280,10 @@ NuGrow
 .nu-m-vert-md
   margin-top var(--nu-sz-md)
   margin-bottom var(--nu-sz-md)
+
+.nu-m-vert-lg
+  margin-top var(--nu-sz-lg)
+  margin-bottom var(--nu-sz-lg)
 
 .nu-mt-md
   margin-top var(--nu-sz-md)
