@@ -143,7 +143,7 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     padding: 0.25rem;
     // border-bottom: 3px solid #0D0D0D;
     border-bottom 1px solid var(--nu-cl-border-input)
