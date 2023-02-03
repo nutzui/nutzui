@@ -107,7 +107,7 @@ onUnmounted(() => {
     <MenuBar
       class="editor__header"
       :editor="editor2"
-      @editor-more="emit('editor-more')"
+      @editor-more="emit('editor-more', editor2)"
       :showadvanced="showadvanced"
     />
     <editor-content class="editor__content" :editor="editor2" />

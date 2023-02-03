@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import './nutzui.styl'
+import NuScrollContainer from '@nutzui/nutzui/components/NuScrollContainer.vue'
 import NuIconChevronRight from './icons/NuIconChevronRight.vue'
 
 defineProps({
@@ -10,8 +11,8 @@ const emit = defineEmits(['go-back'])
 </script>
 
 <template>
-  <div class="nu-flex nu-flex-col">
-    <div class="nux-sidebar-header nu-p-md nu-p-horz-lg nu-flex nu-center-vert nu-m-b-md">
+  <div class="nu-flex nu-flex-col nu-h-full">
+    <div class="nux-sidebar-header nu-p-md nu-p-horz-lg nu-flex nu-center-vert">
       <h1 class="nu-m-l-sm">
         {{ title }}
       </h1>
@@ -26,9 +27,11 @@ const emit = defineEmits(['go-back'])
       </NuIcon>
     </div>
 
-    <menu class="nu-side-menu nu-p-md nu-p-horz-lg nu-flex nu-flex-col">
-      <slot />
-    </menu>
+    <NuScrollContainer>
+      <menu class="nu-side-menu nu-p-md nu-p-horz-lg nu-flex nu-flex-col nu-m-vert-md">
+        <slot />
+      </menu>
+    </NuScrollContainer>
   </div>
 </template>
 
