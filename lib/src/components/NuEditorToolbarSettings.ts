@@ -3,6 +3,7 @@ import NuIconItalic from '@nutzui/nutzui/components/icons/NuIconItalic.vue'
 import NuIconStrikethrough from '@nutzui/nutzui/components/icons/NuIconStrikethrough.vue'
 import NuIconH1 from '@nutzui/nutzui/components/icons/NuIconH1.vue'
 import NuIconListBullet from '@nutzui/nutzui/components/icons/NuIconListBullet.vue'
+import NuIconListNumbered from '@nutzui/nutzui/components/icons/NuIconListNumbered.vue'
 import NuIconListCheck from '@nutzui/nutzui/components/icons/NuIconListCheck.vue'
 import NuIconMarker from '@nutzui/nutzui/components/icons/NuIconMarker.vue'
 
@@ -22,7 +23,7 @@ export const getEditorToolbarDef = (editor: any) => {
           isActive: () => editor.isActive('bulletList'),
         },
         {
-          icon: 'list-ordered',
+          icon: NuIconListNumbered,
           title: 'Ordered List',
           action: () => editor.chain().focus().toggleOrderedList().run(),
           isActive: () => editor.isActive('orderedList'),
@@ -72,6 +73,14 @@ export const getEditorToolbarDef = (editor: any) => {
           action: () => editor.chain().focus().toggleHighlight().run(),
           isActive: () => editor.isActive('highlight'),
           advanced: false,
+        },
+        {
+          type: 'color',
+          advanced: true,
+        },
+        {
+          type: 'bgcolor',
+          advanced: true,
         },
       ]
     },
@@ -207,18 +216,10 @@ export const getEditorToolbarDef = (editor: any) => {
           isActive: () => editor.isActive({ textAlign: 'justify' }),
           advanced: true,
         },
-        {
-          type: 'divider',
-          advanced: true,
-        },
-        {
-          type: 'color',
-          advanced: true,
-        },
-        {
-          type: 'bgcolor',
-          advanced: true,
-        },
+        // {
+        //   type: 'divider',
+        //   advanced: true,
+        // },
       ]
     }
   ]

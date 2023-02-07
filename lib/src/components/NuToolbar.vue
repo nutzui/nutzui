@@ -44,10 +44,10 @@ const items = getEditorToolbarDef(props.editor)
   <div class="nux-tb-container nu-flex nu-overflow-hidden">
     <div class="nux-tb-inner-container nu-flex nu-overflow-hidden">
       <div v-for="(group, grindex) in items" :key="`gr_${grindex}`" class="nux-tb-group">
-        <template v-if="(group.advanced || false) === showadvanced || showadvanced">
+        <template v-if="(showadvanced === false && group.advanced !== true) || (showadvanced === true && group.advanced !== false)">
           <div class="divider" :key="`grdivider${grindex}`" />
           <div v-for="(item, index) in group.items" :key="`grgroup${index}`">
-            <template v-if="(item.advanced || false) === showadvanced || showadvanced">
+            <template v-if="(showadvanced === false && item.advanced !== true) || (showadvanced === true && item.advanced !== false)">
               <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
               <div v-else-if="item.type === 'h-toggle'" :key="`htoggle${index}`" class="nux-htoggle nu-flex nu-center-vert nu-cursor-pointer" @click="toggleHeading">
                 <span v-if="props.editor?.state?.selection?.$anchor?.path?.[1] === 0 && props.editor?.state?.selection?.$anchor?.path?.[2] === 0">Title</span>

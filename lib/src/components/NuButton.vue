@@ -28,15 +28,15 @@ const slots = useSlots()
     class="nu-flex nu-center-vert nu-center-horz"
     :type="type"
   >
-    <NuIcon v-if="slots.icon" class="nu-m-r-sm">
+    <NuIcon v-if="slots.icon" class="nu-m-r-md">
       <slot name="icon"></slot>
     </NuIcon>
-    <NuIcon v-if="icon" class="nu-m-r-sm">
+    <NuIcon v-if="icon" class="nu-m-r-md">
       <component :is="icon" />
     </NuIcon>
     {{ title }}
     <NuGrow />
-    <NuIcon v-if="slots.iconright" class="nu-m-l-sm">
+    <NuIcon v-if="slots.iconright" class="nu-m-l-md">
       <slot name="iconright"></slot>
     </NuIcon>
   </component>
