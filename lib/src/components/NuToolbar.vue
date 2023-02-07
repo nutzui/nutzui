@@ -7,6 +7,7 @@ import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 
 import NuIconArrowDropdown from '@nutzui/nutzui/components/icons/NuIconArrowDropdown.vue'
 import NuIconMore from '@nutzui/nutzui/components/icons/NuIconMore.vue'
+import NuCustomIconColor from '@nutzui/nutzui/components/NuCustomIconColor.vue'
 
 const props = defineProps({
   editor: {
@@ -57,31 +58,31 @@ const items = getEditorToolbarDef(props.editor)
                   <NuIconArrowDropdown />
                 </NuIcon>
               </div>
-              <div v-else-if="item.type === 'color'" :key="`color${index}`" class="nu-flex nu-flex-col nu-m-r-md">
-                <div class="nux-char-a nu-center-self-horz" @click="clickColorpicker">
-                  A
-                </div>
-                <input
-                  type="color"
-                  @input="editor.chain().focus().setColor($event.target.value).run()"
-                  :value="editor.getAttributes('textStyle').color || '#000000'"
-                  ref="colorpicker"
-                >
-              </div>
-              <div v-else-if="item.type === 'bgcolor'" :key="`bgcolor${index}`" class="nu-flex nu-flex-col nu-m-r-md">
-                <div class="nux-marker nu-center-self-horz" @click="clickBgColorpicker">
-                  <svg class="remix">
-                    <use :xlink:href="`${remixiconUrl}#ri-mark-pen-line`" />
-                  </svg>
-                </div>
-                <input
-                  type="color"
-                  @input="editor.chain().focus().toggleHighlight({ color: $event.target.value }).run()"
-                  :value="editor.getAttributes('highlight').color || '#000000'"
-                  ref="bgcolorpicker"
-                >
-              </div>
-              <menu-item v-else :key="`index${index}`" v-bind="item" />
+              <menu-item
+                v-else
+                :key="`index${index}`"
+                :icon="item.icon"
+                :title="item.title"
+                :action="item.action"
+                :isActive="item.isActive"
+              >
+                <template #icon v-if="item.type === 'color'">
+                  <NuCustomIconColor
+                    :icon="item.icon"
+                    :color="editor.getAttributes('textStyle').color || '#000000'"
+                    :action="item.action"
+                    :isActive="item.isActive"
+                  />
+                </template>
+                <template #icon v-else-if="item.type === 'bgcolor'">
+                  <NuCustomIconColor
+                    :icon="item.icon"
+                    :color="editor.isActive('highlight') ? editor.getAttributes('highlight').color || '#faf594' : '#000000'"
+                    :action="item.action"
+                    :isActive="item.isActive"
+                  />
+                </template>
+              </menu-item>
             </template>
           </div>
         </template>
@@ -101,11 +102,14 @@ const items = getEditorToolbarDef(props.editor)
   flex-flow row nowrap
   max-height 41px
   & > *
-    align-self start
+    align-self center
   .nux-tb-inner-container
-    display inline-block
+    // display inline-block
+    display inline-flex
     .nux-tb-group
-      display inline-block
+      // display inline-block
+      display inline-flex
+      align-items center
       & > div
         display inline-flex
 
@@ -120,29 +124,29 @@ const items = getEditorToolbarDef(props.editor)
   .divider
     display none !important
 
-input[type="color"]
-  -webkit-appearance: none;
-  border: none;
-  width: 16px;
-  height: 4px;
-  padding 0
-  cursor pointer
-input[type="color"]::-webkit-color-swatch-wrapper
-  padding: 0;
-input[type="color"]::-webkit-color-swatch
-  border: none;
+// input[type="color"]
+//   -webkit-appearance: none;
+//   border: none;
+//   width: 16px;
+//   height: 4px;
+//   padding 0
+//   cursor pointer
+// input[type="color"]::-webkit-color-swatch-wrapper
+//   padding: 0;
+// input[type="color"]::-webkit-color-swatch
+//   border: none;
 
 .nux-char-a
   line-height 1
   cursor pointer
 
-.nux-marker, .nux-marker svg
-  width 14px
-  height 14px
-  cursor pointer
-.nux-marker
-  margin-bottom 4px
-  margin-top -3px
+// .nux-marker, .nux-marker svg
+//   width 14px
+//   height 14px
+//   cursor pointer
+// .nux-marker
+//   margin-bottom 4px
+//   margin-top -3px
 
 .nux-htoggle
   &:hover *

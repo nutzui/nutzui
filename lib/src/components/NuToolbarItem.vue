@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useSlots } from 'vue'
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 // TODO Replace all Remix icons by own (svg) icons.
 
@@ -24,11 +25,16 @@ defineProps({
     },
 })
 
+const slots = useSlots()
 </script>
 
 <template>
+  <template v-if="slots.icon">
+    <slot name="icon"></slot>
+  </template>
+
   <NuIcon
-    v-if="typeof icon === 'object'"
+    v-else-if="typeof icon === 'object'"
     qqqclass="nux-main-menu-toggle nu-m-r-sm nu-clickable"
     :class="{ 'is-active': isActive ? isActive(): null }"
     @click="action"

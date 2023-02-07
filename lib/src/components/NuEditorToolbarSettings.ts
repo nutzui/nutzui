@@ -6,6 +6,7 @@ import NuIconListBullet from '@nutzui/nutzui/components/icons/NuIconListBullet.v
 import NuIconListNumbered from '@nutzui/nutzui/components/icons/NuIconListNumbered.vue'
 import NuIconListCheck from '@nutzui/nutzui/components/icons/NuIconListCheck.vue'
 import NuIconMarker from '@nutzui/nutzui/components/icons/NuIconMarker.vue'
+import NuIconA from '@nutzui/nutzui/components/icons/NuIconA.vue'
 
 /*
 --------------------------------------------------------------------------
@@ -70,16 +71,28 @@ export const getEditorToolbarDef = (editor: any) => {
         {
           icon: NuIconMarker,
           title: 'Highlight',
-          action: () => editor.chain().focus().toggleHighlight().run(),
+          action: () => editor.chain().focus().toggleHighlight({ color: '#faf594' }).run(),
           isActive: () => editor.isActive('highlight'),
           advanced: false,
         },
+        // {
+        //   type: 'color',
+        //   advanced: true,
+        // },
         {
           type: 'color',
+          icon: NuIconA,
+          title: 'Text color',
+          action: (v: any) => editor.chain().focus().setColor(v).run(),
+          isActive: () => editor.isActive('textStyle'),
           advanced: true,
         },
         {
           type: 'bgcolor',
+          icon: NuIconMarker,
+          title: 'Highlight color',
+          action: (v: any) => editor.chain().focus().toggleHighlight({ color: v }).run(),
+          isActive: () => editor.isActive('highlight'),
           advanced: true,
         },
       ]
@@ -91,10 +104,10 @@ export const getEditorToolbarDef = (editor: any) => {
         //   type: 'divider',
         //   advanced: true,
         // },
-        {
-          type: 'h-toggle',
-          advanced: true,
-        },
+        // {
+        //   type: 'h-toggle',
+        //   advanced: true,
+        // },
         {
           type: 'divider',
           advanced: true,
