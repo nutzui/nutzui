@@ -18,6 +18,10 @@ const props = defineProps({
   isActive: {
     type: Function,
     required: false,
+  },
+  tp: {
+    type: String,
+    required: false,
   }
 })
 
@@ -36,6 +40,15 @@ const colorChanged = (c: any) => {
     props.action(c)
   }
 }
+
+defineExpose({
+  clickedParent: () => {
+    clickBgColorpicker()
+  },
+  getTp: () => {
+    return props.tp
+  }
+})
 </script>
 
 <template>
