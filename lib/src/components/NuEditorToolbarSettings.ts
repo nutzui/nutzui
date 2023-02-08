@@ -12,6 +12,7 @@ import NuIconAlignRight from '@nutzui/nutzui/components/icons/NuIconAlignRight.v
 import NuIconAlignCenter from '@nutzui/nutzui/components/icons/NuIconAlignCenter.vue'
 import NuIconAlignJustify from '@nutzui/nutzui/components/icons/NuIconAlignJustify.vue'
 import NuIconFormatClear from '@nutzui/nutzui/components/icons/NuIconFormatClear.vue'
+import NuIconHorizontalRule from '@nutzui/nutzui/components/icons/NuIconHorizontalRule.vue'
 
 /*
 --------------------------------------------------------------------------
@@ -156,6 +157,17 @@ export const getEditorToolbarDef = (editor: any) => {
       advanced: true,
       items: [
         {
+          icon: NuIconHorizontalRule,
+          title: 'Horizontal line',
+          action: () => editor.chain().focus().setHorizontalRule().run(),
+          advanced: true,
+        },
+      ]
+    },
+    {
+      advanced: true,
+      items: [
+        {
           icon: NuIconFormatClear,
           title: 'Clear formatting',
           action: () => editor.chain()
@@ -167,78 +179,72 @@ export const getEditorToolbarDef = (editor: any) => {
         },
       ]
     },
-    {
-      advanced: true,
-      items: [
-        // {
-        //   icon: NuIconH1,
-        //   title: 'Heading 1',
-        //   action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-        //   isActive: () => editor.isActive('heading', { level: 1 }),
-        // },
-        // {
-        //   icon: 'h-2',
-        //   title: 'Heading 2',
-        //   action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-        //   isActive: () => editor.isActive('heading', { level: 2 }),
-        // },
-        // {
-        //   icon: 'h-3',
-        //   title: 'Heading 3',
-        //   action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-        //   isActive: () => editor.isActive('heading', { level: 3 }),
-        // },
-        // {
-        //   icon: 'h-4',
-        //   title: 'Heading 4',
-        //   action: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
-        //   isActive: () => editor.isActive('heading', { level: 4 }),
-        // },
-        // {
-        //   icon: 'paragraph',
-        //   title: 'Paragraph',
-        //   action: () => editor.chain().focus().setParagraph().run(),
-        //   isActive: () => editor.isActive('paragraph'),
-        // },
-        // {
-        //   icon: 'code-box-line',
-        //   title: 'Code Block',
-        //   action: () => editor.chain().focus().toggleCodeBlock().run(),
-        //   isActive: () => editor.isActive('codeBlock'),
-        // },
-        {
-          icon: 'double-quotes-l',
-          title: 'Blockquote',
-          action: () => editor.chain().focus().toggleBlockquote().run(),
-          isActive: () => editor.isActive('blockquote'),
-          advanced: true,
-        },
-        {
-          icon: 'separator',
-          title: 'Horizontal Rule',
-          action: () => editor.chain().focus().setHorizontalRule().run(),
-          advanced: true,
-        },
-        // {
-        //   icon: 'text-wrap',
-        //   title: 'Hard Break',
-        //   action: () => editor.chain().focus().setHardBreak().run(),
-        // },
-        // {
-        //   icon: 'arrow-go-back-line',
-        //   title: 'Undo',
-        //   action: () => editor.chain().focus().undo().run(),
-        // },
-        // {
-        //   icon: 'arrow-go-forward-line',
-        //   title: 'Redo',
-        //   action: () => editor.chain().focus().redo().run(),
-        // },
-        // {
-        //   type: 'divider',
-        //   advanced: true,
-        // },
-      ]
-    }
+    // {
+    //   advanced: true,
+    //   items: [
+    //     // {
+    //     //   icon: NuIconH1,
+    //     //   title: 'Heading 1',
+    //     //   action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    //     //   isActive: () => editor.isActive('heading', { level: 1 }),
+    //     // },
+    //     // {
+    //     //   icon: 'h-2',
+    //     //   title: 'Heading 2',
+    //     //   action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    //     //   isActive: () => editor.isActive('heading', { level: 2 }),
+    //     // },
+    //     // {
+    //     //   icon: 'h-3',
+    //     //   title: 'Heading 3',
+    //     //   action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    //     //   isActive: () => editor.isActive('heading', { level: 3 }),
+    //     // },
+    //     // {
+    //     //   icon: 'h-4',
+    //     //   title: 'Heading 4',
+    //     //   action: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
+    //     //   isActive: () => editor.isActive('heading', { level: 4 }),
+    //     // },
+    //     // {
+    //     //   icon: 'paragraph',
+    //     //   title: 'Paragraph',
+    //     //   action: () => editor.chain().focus().setParagraph().run(),
+    //     //   isActive: () => editor.isActive('paragraph'),
+    //     // },
+    //     // {
+    //     //   icon: 'code-box-line',
+    //     //   title: 'Code Block',
+    //     //   action: () => editor.chain().focus().toggleCodeBlock().run(),
+    //     //   isActive: () => editor.isActive('codeBlock'),
+    //     // },
+    //     {
+    //       icon: 'double-quotes-l',
+    //       title: 'Blockquote',
+    //       action: () => editor.chain().focus().toggleBlockquote().run(),
+    //       isActive: () => editor.isActive('blockquote'),
+    //       advanced: true,
+    //     },
+    //     // {
+    //     //   icon: 'text-wrap',
+    //     //   title: 'Hard Break',
+    //     //   action: () => editor.chain().focus().setHardBreak().run(),
+    //     // },
+    //     // {
+    //     //   icon: 'arrow-go-back-line',
+    //     //   title: 'Undo',
+    //     //   action: () => editor.chain().focus().undo().run(),
+    //     // },
+    //     // {
+    //     //   icon: 'arrow-go-forward-line',
+    //     //   title: 'Redo',
+    //     //   action: () => editor.chain().focus().redo().run(),
+    //     // },
+    //     // {
+    //     //   type: 'divider',
+    //     //   advanced: true,
+    //     // },
+    //   ]
+    // }
   ]
 }
