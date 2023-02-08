@@ -69,7 +69,7 @@ const items = getEditorToolbarDef(props.editor)
                 <template #icon v-if="item.type === 'color'">
                   <NuCustomIconColor
                     :icon="item.icon"
-                    :color="editor.getAttributes('textStyle').color || '#000000'"
+                    :color="editor.getAttributes('textStyle').color || '#999999'"
                     :action="item.action"
                     :isActive="item.isActive"
                   />
@@ -77,7 +77,7 @@ const items = getEditorToolbarDef(props.editor)
                 <template #icon v-else-if="item.type === 'bgcolor'">
                   <NuCustomIconColor
                     :icon="item.icon"
-                    :color="editor.isActive('highlight') ? editor.getAttributes('highlight').color || '#faf594' : '#000000'"
+                    :color="editor.isActive('highlight') ? editor.getAttributes('highlight').color || '#faf594' : '#999999'"
                     :action="item.action"
                     :isActive="item.isActive"
                   />
@@ -112,6 +112,9 @@ const items = getEditorToolbarDef(props.editor)
       align-items center
       & > div
         display inline-flex
+
+:deep(NuIcon)
+  color #999
 
 .divider
   width: 2px;

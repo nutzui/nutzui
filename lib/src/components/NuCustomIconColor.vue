@@ -99,6 +99,6 @@ NuIcon, .nux-marker, .nux-marker svg
   margin-bottom 2px
   // margin-top -3px
 
-.is-active
+.is-active, :hover
     color: var(--nu-cl-focus)
 </style>

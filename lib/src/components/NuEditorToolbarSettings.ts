@@ -7,9 +7,28 @@ import NuIconListNumbered from '@nutzui/nutzui/components/icons/NuIconListNumber
 import NuIconListCheck from '@nutzui/nutzui/components/icons/NuIconListCheck.vue'
 import NuIconMarker from '@nutzui/nutzui/components/icons/NuIconMarker.vue'
 import NuIconA from '@nutzui/nutzui/components/icons/NuIconA.vue'
+import NuIconAlignLeft from '@nutzui/nutzui/components/icons/NuIconAlignLeft.vue'
+import NuIconAlignRight from '@nutzui/nutzui/components/icons/NuIconAlignRight.vue'
+import NuIconAlignCenter from '@nutzui/nutzui/components/icons/NuIconAlignCenter.vue'
+import NuIconAlignJustify from '@nutzui/nutzui/components/icons/NuIconAlignJustify.vue'
+import NuIconFormatClear from '@nutzui/nutzui/components/icons/NuIconFormatClear.vue'
 
 /*
 --------------------------------------------------------------------------
+TODO I18n
+TODO Keyboard shortcuts
+
+TODO Undo redo
+TODO Print
+TODO Spellcheck
+TODO Zoom
+TODO Font family
+TODO Font size
+TODO Link
+TODO Add comment\
+TODO Insert image
+TODO Line/paragraph spacing
+TODO Increase/decrease indent
 --------------------------------------------------------------------------
 */
 
@@ -17,6 +36,12 @@ export const getEditorToolbarDef = (editor: any) => {
   return [
     {
       items: [
+        {
+          icon: NuIconListCheck,
+          title: 'Checklist',
+          action: () => editor.chain().focus().toggleTaskList().run(),
+          isActive: () => editor.isActive('taskList'),
+        },
         {
           icon: NuIconListBullet,
           title: 'Bullet List',
@@ -30,19 +55,10 @@ export const getEditorToolbarDef = (editor: any) => {
           isActive: () => editor.isActive('orderedList'),
           advanced: true,
         },
-        {
-          icon: NuIconListCheck,
-          title: 'Checklist',
-          action: () => editor.chain().focus().toggleTaskList().run(),
-          isActive: () => editor.isActive('taskList'),
-        },
       ]
     },
     {
       items: [
-        // {
-        //   type: 'divider',
-        // },
         {
           icon: NuIconBold,
           title: 'Bold',
@@ -75,10 +91,6 @@ export const getEditorToolbarDef = (editor: any) => {
           isActive: () => editor.isActive('highlight'),
           advanced: false,
         },
-        // {
-        //   type: 'color',
-        //   advanced: true,
-        // },
         {
           type: 'color',
           icon: NuIconA,
@@ -100,18 +112,58 @@ export const getEditorToolbarDef = (editor: any) => {
     {
       advanced: true,
       items: [
-        // {
-        //   type: 'divider',
-        //   advanced: true,
-        // },
+        {
+          icon: NuIconAlignLeft,
+          title: 'Align left',
+          action: () => editor.chain().focus().setTextAlign('left').run(),
+          isActive: () => editor.isActive({ textAlign: 'left' }),
+          advanced: true,
+        },
+        {
+          icon: NuIconAlignCenter,
+          title: 'Align center',
+          action: () => editor.chain().focus().setTextAlign('center').run(),
+          isActive: () => editor.isActive({ textAlign: 'center' }),
+          advanced: true,
+        },
+        {
+          icon: NuIconAlignRight,
+          title: 'Align right',
+          action: () => editor.chain().focus().setTextAlign('right').run(),
+          isActive: () => editor.isActive({ textAlign: 'right' }),
+          advanced: true,
+        },
+        {
+          icon: NuIconAlignJustify,
+          title: 'Align justify',
+          action: () => editor.chain().focus().setTextAlign('justify').run(),
+          isActive: () => editor.isActive({ textAlign: 'justify' }),
+          advanced: true,
+        },
+      ]
+    },
+    {
+      advanced: true,
+      items: [
+        {
+          icon: NuIconFormatClear,
+          title: 'Clear formatting',
+          action: () => editor.chain()
+            .focus()
+            .clearNodes()
+            .unsetAllMarks()
+            .run(),
+          advanced: true,
+        },
+      ]
+    },
+    {
+      advanced: true,
+      items: [
         // {
         //   type: 'h-toggle',
         //   advanced: true,
         // },
-        {
-          type: 'divider',
-          advanced: true,
-        },
         // {
         //   icon: NuIconH1,
         //   title: 'Heading 1',
@@ -149,10 +201,6 @@ export const getEditorToolbarDef = (editor: any) => {
         //   isActive: () => editor.isActive('codeBlock'),
         // },
         {
-          type: 'divider',
-          advanced: true,
-        },
-        {
           icon: 'double-quotes-l',
           title: 'Blockquote',
           action: () => editor.chain().focus().toggleBlockquote().run(),
@@ -165,27 +213,10 @@ export const getEditorToolbarDef = (editor: any) => {
           action: () => editor.chain().focus().setHorizontalRule().run(),
           advanced: true,
         },
-        {
-          type: 'divider',
-          advanced: true,
-        },
         // {
         //   icon: 'text-wrap',
         //   title: 'Hard Break',
         //   action: () => editor.chain().focus().setHardBreak().run(),
-        // },
-        {
-          icon: 'format-clear',
-          title: 'Clear Format',
-          action: () => editor.chain()
-            .focus()
-            .clearNodes()
-            .unsetAllMarks()
-            .run(),
-          advanced: true,
-        },
-        // {
-        //   type: 'divider',
         // },
         // {
         //   icon: 'arrow-go-back-line',
@@ -197,38 +228,6 @@ export const getEditorToolbarDef = (editor: any) => {
         //   title: 'Redo',
         //   action: () => editor.chain().focus().redo().run(),
         // },
-        {
-          type: 'divider',
-          advanced: true,
-        },
-        {
-          icon: 'align-left',
-          title: 'Align left',
-          action: () => editor.chain().focus().setTextAlign('left').run(),
-          isActive: () => editor.isActive({ textAlign: 'left' }),
-          advanced: true,
-        },
-        {
-          icon: 'align-center',
-          title: 'Align center',
-          action: () => editor.chain().focus().setTextAlign('center').run(),
-          isActive: () => editor.isActive({ textAlign: 'center' }),
-          advanced: true,
-        },
-        {
-          icon: 'align-right',
-          title: 'Align right',
-          action: () => editor.chain().focus().setTextAlign('right').run(),
-          isActive: () => editor.isActive({ textAlign: 'right' }),
-          advanced: true,
-        },
-        {
-          icon: 'align-justify',
-          title: 'Align justify',
-          action: () => editor.chain().focus().setTextAlign('justify').run(),
-          isActive: () => editor.isActive({ textAlign: 'justify' }),
-          advanced: true,
-        },
         // {
         //   type: 'divider',
         //   advanced: true,
