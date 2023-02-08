@@ -6,17 +6,17 @@ import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 defineProps({
   icon: {
       // type: String,
-      required: true,
+      // required: true,
     },
 
     title: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     action: {
       type: Function,
-      required: true,
+      // required: true,
     },
 
     isActive: {

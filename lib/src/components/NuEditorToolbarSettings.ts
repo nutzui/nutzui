@@ -58,6 +58,16 @@ export const getEditorToolbarDef = (editor: any) => {
       ]
     },
     {
+      advanced: true,
+      items: [
+        {
+          type: 'paragraph',
+          icon: NuIconAlignLeft,
+          advanced: true,
+        },
+      ]
+    },
+    {
       items: [
         {
           icon: NuIconBold,
@@ -160,10 +170,6 @@ export const getEditorToolbarDef = (editor: any) => {
     {
       advanced: true,
       items: [
-        // {
-        //   type: 'h-toggle',
-        //   advanced: true,
-        // },
         // {
         //   icon: NuIconH1,
         //   title: 'Heading 1',

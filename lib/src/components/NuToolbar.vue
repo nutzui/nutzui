@@ -2,12 +2,14 @@
 import { getEditorToolbarDef } from './NuEditorToolbarSettings'
 import MenuItem from './NuToolbarItem.vue'
 import { ref } from 'vue'
+import { getEditorParagraphType } from '../helpers/paragraph'
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 // TODO Replace all Remix icons by own (svg) icons.
 
 import NuIconArrowDropdown from '@nutzui/nutzui/components/icons/NuIconArrowDropdown.vue'
 import NuIconMore from '@nutzui/nutzui/components/icons/NuIconMore.vue'
 import NuCustomIconColor from '@nutzui/nutzui/components/NuCustomIconColor.vue'
+import NuCustomIconParagraph from '@nutzui/nutzui/components/NuCustomIconParagraph.vue'
 
 const props = defineProps({
   editor: {
@@ -17,25 +19,10 @@ const props = defineProps({
   showadvanced: Boolean,
 })
 
-const emit = defineEmits(['editor-more'])
+const emit = defineEmits(['editor-more', 'editor-paragraph-style'])
 
-const colorpicker = ref(null)
-const bgcolorpicker = ref(null)
-
-const clickColorpicker = () => {
-  colorpicker.value?.[0]?.click()
-}
-
-const clickBgColorpicker = () => {
-  bgcolorpicker.value?.[0]?.click()
-}
-
-const toggleHeading = () => {
-  if (props.editor.isActive('heading')) {
-    props.editor.chain().focus().setParagraph().run()
-  } else {
-    props.editor.chain().focus().toggleHeading({ level: 1 }).run()
-  }
+const getPara = () => {
+  return getEditorParagraphType(props.editor)
 }
 
 const items = getEditorToolbarDef(props.editor)
@@ -50,14 +37,6 @@ const items = getEditorToolbarDef(props.editor)
           <div v-for="(item, index) in group.items" :key="`grgroup${index}`">
             <template v-if="(showadvanced === false && item.advanced !== true) || (showadvanced === true && item.advanced !== false)">
               <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
-              <div v-else-if="item.type === 'h-toggle'" :key="`htoggle${index}`" class="nux-htoggle nu-flex nu-center-vert nu-cursor-pointer" @click="toggleHeading">
-                <span v-if="props.editor?.state?.selection?.$anchor?.path?.[1] === 0 && props.editor?.state?.selection?.$anchor?.path?.[2] === 0">Title</span>
-                <span v-else-if="!props.editor.isActive('heading')">Normal text</span>
-                <span v-else>Heading</span>
-                <NuIcon class="nux-arrow-dropdown">
-                  <NuIconArrowDropdown />
-                </NuIcon>
-              </div>
               <menu-item
                 v-else
                 :key="`index${index}`"
@@ -66,6 +45,13 @@ const items = getEditorToolbarDef(props.editor)
                 :action="item.action"
                 :isActive="item.isActive"
               >
+                <template #icon v-if="item.type === 'paragraph'">
+                  <NuCustomIconParagraph
+                    :icon="item.icon"
+                    :value="getPara()"
+                    @click="emit('editor-paragraph-style')"
+                  />
+                </template>
                 <template #icon v-if="item.type === 'color'">
                   <NuCustomIconColor
                     :icon="item.icon"

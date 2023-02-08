@@ -35,7 +35,7 @@ const props = defineProps({
   showadvanced: Boolean,
 })
 
-const emit = defineEmits(['editor-more'])
+const emit = defineEmits(['editor-more', 'editor-paragraph-style'])
 
 let editor2: any = ref(null)
 
@@ -108,6 +108,7 @@ onUnmounted(() => {
       class="editor__header"
       :editor="editor2"
       @editor-more="emit('editor-more', editor2)"
+      @editor-paragraph-style="emit('editor-paragraph-style', editor2)"
       :showadvanced="showadvanced"
     />
     <editor-content class="editor__content" :editor="editor2" />
